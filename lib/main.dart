@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
-import 'consts/consts.dart';
+import 'package:flutter_e_mart/consts/consts.dart';
+import 'package:flutter_e_mart/views/views.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,8 +14,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: appName,
-      theme: ThemeData(),
-      home: const Scaffold(),
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.transparent,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.transparent,
+        ),
+        fontFamily: regular,
+      ),
+      home: const SplashScreen(),
     );
   }
 }
