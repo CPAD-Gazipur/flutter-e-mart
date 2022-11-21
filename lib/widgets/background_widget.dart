@@ -1,6 +1,6 @@
 import 'package:flutter_e_mart/consts/consts.dart';
 
-Widget backgroundWidget(Widget? child) {
+Widget backgroundWidget({Widget? child}) {
   return Container(
     decoration: const BoxDecoration(
       image: DecorationImage(
