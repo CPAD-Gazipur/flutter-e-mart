@@ -11,7 +11,7 @@ Widget customTextFormFieldWidget({
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      label.text.color(redColor).fontFamily(semibold).size(16).make(),
+      label.text.color(redColor).fontFamily(semibold).size(14).make(),
       5.heightBox,
       TextFormField(
         controller: controller,
@@ -34,7 +34,7 @@ Widget customTextFormFieldWidget({
           ),
         ),
       ).box.rounded.make(),
-      5.heightBox,
+      10.heightBox,
     ],
   );
 }

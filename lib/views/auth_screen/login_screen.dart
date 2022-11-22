@@ -1,5 +1,7 @@
 import 'package:flutter_e_mart/consts/consts.dart';
+import 'package:flutter_e_mart/views/views.dart';
 import 'package:flutter_e_mart/widgets/widgets.dart';
+import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -53,7 +55,9 @@ class LoginScreen extends StatelessWidget {
                     title: singUp,
                     titleColor: redColor,
                     backgroundColor: lightGolden,
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(() => const SignupScreen());
+                    },
                   ).box.width(context.screenWidth - 60).make(),
                   10.heightBox,
                   loginWith.text.color(fontGrey).make(),
