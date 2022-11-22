@@ -8,6 +8,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return backgroundWidget(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Center(
           child: Column(
             children: [
@@ -15,7 +16,7 @@ class LoginScreen extends StatelessWidget {
               appLogoWidget(),
               10.heightBox,
               'Log in to $appName'.text.fontFamily(bold).white.make(),
-              10.heightBox,
+              15.heightBox,
               Column(
                 children: [
                   customTextFormFieldWidget(
@@ -56,6 +57,29 @@ class LoginScreen extends StatelessWidget {
                   ).box.width(context.screenWidth - 60).make(),
                   10.heightBox,
                   loginWith.text.color(fontGrey).make(),
+                  5.heightBox,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      socialIconList.length,
+                      (index) => InkWell(
+                        onTap: () {
+                          debugPrint('TAP: ${socialIconList[index]}');
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircleAvatar(
+                            backgroundColor: lightGrey,
+                            radius: 20,
+                            child: Image.asset(
+                              socialIconList[index],
+                              width: 30,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
                 ],
               )
                   .box
@@ -63,6 +87,7 @@ class LoginScreen extends StatelessWidget {
                   .rounded
                   .padding(const EdgeInsets.all(16.0))
                   .width(context.screenWidth - 40)
+                  .shadowSm
                   .make(),
             ],
           ),
