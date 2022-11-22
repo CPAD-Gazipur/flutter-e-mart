@@ -46,7 +46,9 @@ class LoginScreen extends StatelessWidget {
                     title: login,
                     titleColor: whiteColor,
                     backgroundColor: redColor,
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(() => const HomeScreen());
+                    },
                   ).box.width(context.screenWidth - 60).make(),
                   5.heightBox,
                   createNewAccount.text.color(fontGrey).make(),
