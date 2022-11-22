@@ -4,7 +4,7 @@ Widget customButtonWidget({
   required String title,
   required Color titleColor,
   required Color backgroundColor,
-  required VoidCallback onPressed,
+  required VoidCallback? onPressed,
 }) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
