@@ -11,3 +11,26 @@ const featuredImageList2 = [imgS4, imgS5, imgS6];
 
 const featuredTitleList1 = [womenDress, girlDress, girlWatch];
 const featuredTitleList2 = [boyGlass, mobilePhone, tShirt];
+
+const categoryTitleList = [
+  menClothingAndFashion,
+  computerAccessories,
+  autoMobile,
+  kidsToy,
+  sports,
+  cellPhoneAndTab,
+  jewelery,
+  womenClothing,
+  furniture,
+];
+const categoryImageList = [
+  imgFc1,
+  imgFc2,
+  imgFc3,
+  imgFc4,
+  imgFc5,
+  imgFc6,
+  imgFc7,
+  imgFc8,
+  imgFc9
+];

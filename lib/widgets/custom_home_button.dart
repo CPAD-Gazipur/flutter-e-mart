@@ -17,5 +17,12 @@ Widget customHomeButton({
       10.heightBox,
       title.text.fontFamily(semibold).color(darkFontGrey).make(),
     ],
-  ).box.roundedSM.white.size(width, height).shadowXs.make().onTap(onPressed);
+  )
+      .box
+      .roundedSM
+      .white
+      .size(width, height)
+      .outerShadowSm
+      .make()
+      .onTap(onPressed);
 }

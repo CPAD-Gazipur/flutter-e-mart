@@ -44,3 +44,14 @@ const mobilePhone = 'Mobile Phone';
 const boyGlass = 'Boy Glasses';
 const tShirt = 'TShirts';
 const girlDress = 'Girls Dresses';
+
+/// CATEGORY SCREEN STRINGS
+const womenClothing = 'Women Clothing';
+const menClothingAndFashion = 'Men Clothing & Fashion';
+const computerAccessories = 'Computer & Accessories';
+const autoMobile = 'Auto Mobiles';
+const kidsToy = 'Kids Toy';
+const sports = 'Sports';
+const jewelery = 'Jewelery';
+const cellPhoneAndTab = 'Cellphone & Tab';
+const furniture = 'Furniture\'s';
