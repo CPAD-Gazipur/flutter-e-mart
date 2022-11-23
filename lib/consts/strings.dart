@@ -34,6 +34,8 @@ const topSeller = 'Top Seller';
 const brand = 'Brand';
 const topCategories = 'Top Categories';
 const featuredCategories = 'Featured Categories';
+const allProducts = 'All Products';
+const featuredProducts = 'Featured Products';
 
 /// HOME FEATURE BUTTON TEXT
 const womenDress = 'Women Dress';

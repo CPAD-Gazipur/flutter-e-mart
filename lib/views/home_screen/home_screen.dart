@@ -15,6 +15,7 @@ class HomeScreen extends StatelessWidget {
       child: SafeArea(
         child: Column(
           children: [
+            /// Search Design
             Container(
               alignment: Alignment.center,
               height: 60,
@@ -33,11 +34,14 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+            /// Full Body
             Expanded(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
+                    /// First Image Slider
                     VxSwiper.builder(
                       aspectRatio: 16 / 9,
                       autoPlay: true,
@@ -62,6 +66,8 @@ class HomeScreen extends StatelessWidget {
                       },
                     ),
                     10.heightBox,
+
+                    /// Today's Deal & Flash Sale
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: List.generate(
@@ -76,6 +82,8 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     10.heightBox,
+
+                    /// Second Image Slider
                     VxSwiper.builder(
                       aspectRatio: 16 / 9,
                       autoPlay: true,
@@ -95,6 +103,8 @@ class HomeScreen extends StatelessWidget {
                       },
                     ),
                     10.heightBox,
+
+                    /// Top Categories Button
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: List.generate(
@@ -119,6 +129,8 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     20.heightBox,
+
+                    /// Featured Categories
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Column(
@@ -157,7 +169,170 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                    )
+                    ),
+                    20.heightBox,
+
+                    /// Featured Products
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(12),
+                      decoration: const BoxDecoration(
+                        color: redColor,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          featuredProducts.text.white
+                              .fontFamily(bold)
+                              .size(18)
+                              .make(),
+                          10.heightBox,
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: List.generate(
+                                6,
+                                (index) => Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Image.asset(
+                                      imgP1,
+                                      width: 130,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    10.heightBox,
+                                    'Laptop 8GB/64GB'
+                                        .text
+                                        .fontFamily(semibold)
+                                        .color(darkFontGrey)
+                                        .make(),
+                                    10.heightBox,
+                                    '\$600'
+                                        .text
+                                        .fontFamily(bold)
+                                        .color(redColor)
+                                        .size(14)
+                                        .make(),
+                                  ],
+                                )
+                                    .box
+                                    .white
+                                    .roundedSM
+                                    .margin(
+                                      const EdgeInsets.symmetric(
+                                        horizontal: 4.0,
+                                      ),
+                                    )
+                                    .padding(const EdgeInsets.all(8.0))
+                                    .make(),
+                              ),
+                            ),
+                          ),
+                          5.heightBox,
+                        ],
+                      ),
+                    ),
+                    20.heightBox,
+
+                    /// Third Image Slider
+                    VxSwiper.builder(
+                      aspectRatio: 16 / 9,
+                      autoPlay: true,
+                      height: 130,
+                      enlargeCenterPage: true,
+                      itemCount: secondSliderList.length,
+                      itemBuilder: (context, index) {
+                        return Image.asset(
+                          secondSliderList[index],
+                          fit: BoxFit.fill,
+                        )
+                            .box
+                            .roundedSM
+                            .clip(Clip.antiAlias)
+                            .margin(const EdgeInsets.symmetric(horizontal: 5))
+                            .make();
+                      },
+                    ),
+                    20.heightBox,
+
+                    /// All Product Section
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 6.0),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: allProducts.text
+                                  .color(fontGrey)
+                                  .fontFamily(regular)
+                                  .size(16)
+                                  .make(),
+                            ),
+                          ),
+                          10.heightBox,
+                          GridView.builder(
+                            shrinkWrap: true,
+                            itemCount: 6,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 8,
+                              crossAxisSpacing: 8,
+                              mainAxisExtent: 260,
+                            ),
+                            itemBuilder: (context, index) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Image.asset(
+                                    imgP3,
+                                    //fit: BoxFit.fill,
+                                    width: 200,
+                                    // height: 200,
+                                  ),
+                                  const Spacer(),
+                                  'Macbook Pro M1 Chip'
+                                      .text
+                                      .fontFamily(semibold)
+                                      .color(darkFontGrey)
+                                      .make(),
+                                  5.heightBox,
+                                  'Apple'
+                                      .text
+                                      .fontFamily(regular)
+                                      .color(fontGrey)
+                                      .size(12)
+                                      .make(),
+                                  10.heightBox,
+                                  '\$1200'
+                                      .text
+                                      .fontFamily(bold)
+                                      .color(redColor)
+                                      .size(14)
+                                      .make(),
+                                  10.heightBox,
+                                ],
+                              )
+                                  .box
+                                  .white
+                                  .margin(
+                                    const EdgeInsets.symmetric(horizontal: 4.0),
+                                  )
+                                  .padding(const EdgeInsets.all(12))
+                                  .roundedSM
+                                  .clip(Clip.antiAlias)
+                                  .make();
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    10.heightBox,
                   ],
                 ),
               ),
