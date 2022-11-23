@@ -34,3 +34,11 @@ const topSeller = 'Top Seller';
 const brand = 'Brand';
 const topCategories = 'Top Categories';
 const featuredCategories = 'Featured Categories';
+
+/// HOME FEATURE BUTTON TEXT
+const womenDress = 'Women Dress';
+const girlWatch = 'Girl Watches';
+const mobilePhone = 'Mobile Phone';
+const boyGlass = 'Boy Glasses';
+const tShirt = 'TShirts';
+const girlDress = 'Girls Dresses';

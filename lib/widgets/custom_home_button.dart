@@ -5,7 +5,7 @@ Widget customHomeButton({
   required double height,
   required String image,
   required String title,
-  VoidCallbackAction? onPressed,
+  required VoidCallback? onPressed,
 }) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -17,5 +17,5 @@ Widget customHomeButton({
       10.heightBox,
       title.text.fontFamily(semibold).color(darkFontGrey).make(),
     ],
-  ).box.rounded.white.size(width, height).shadowXs.make();
+  ).box.roundedSM.white.size(width, height).shadowXs.make().onTap(onPressed);
 }
