@@ -2,6 +2,7 @@ export 'account_screen//account_screen.dart';
 export 'auth_screen/login_screen.dart';
 export 'auth_screen/signup_screen.dart';
 export 'cart_screen/cart_screen.dart';
+export 'category_screen/category_details_screen.dart';
 export 'category_screen/category_screen.dart';
 export 'home_screen/components/featured_button.dart';
 export 'home_screen/home_nav_bar.dart';

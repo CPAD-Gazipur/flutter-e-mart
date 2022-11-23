@@ -325,6 +325,7 @@ class HomeScreen extends StatelessWidget {
                                   )
                                   .padding(const EdgeInsets.all(12))
                                   .roundedSM
+                                  .outerShadowSm
                                   .clip(Clip.antiAlias)
                                   .make();
                             },

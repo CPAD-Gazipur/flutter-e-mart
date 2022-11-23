@@ -1,5 +1,7 @@
 import 'package:flutter_e_mart/consts/consts.dart';
+import 'package:flutter_e_mart/views/category_screen/category_details_screen.dart';
 import 'package:flutter_e_mart/widgets/background_widget.dart';
+import 'package:get/get.dart';
 
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({Key? key}) : super(key: key);
@@ -48,7 +50,14 @@ class CategoryScreen extends StatelessWidget {
                   .padding(const EdgeInsets.all(8.0))
                   .white
                   .outerShadowSm
-                  .make();
+                  .make()
+                  .onTap(
+                    () => Get.to(
+                      () => CategoryDetailsScreen(
+                        title: categoryTitleList[index],
+                      ),
+                    ),
+                  );
             },
           ),
         ),
