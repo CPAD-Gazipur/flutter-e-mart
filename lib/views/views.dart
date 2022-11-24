@@ -7,4 +7,5 @@ export 'category_screen/category_screen.dart';
 export 'home_screen/components/featured_button.dart';
 export 'home_screen/home_nav_bar.dart';
 export 'home_screen/home_screen.dart';
+export 'product_details_screen/product_details_screen.dart';
 export 'splash_screen/splash_screen.dart';
