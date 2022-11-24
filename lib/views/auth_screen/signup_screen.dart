@@ -125,7 +125,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ],
                     ),
                     5.heightBox,
-                    customButtonWidget(
+                    CustomButtonWidget(
                       title: singUp,
                       titleColor: whiteColor,
                       backgroundColor:

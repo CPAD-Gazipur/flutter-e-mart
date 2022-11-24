@@ -1,17 +1,22 @@
+import 'package:flutter_e_mart/widgets/custom_button_widget.dart';
+import 'package:flutter_rating_native/flutter_rating_native.dart';
+
 import '../../consts/consts.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final String title;
+  final String image;
 
   const ProductDetailsScreen({
     Key? key,
     required this.title,
+    required this.image,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: lightGrey,
+      backgroundColor: whiteColor,
       appBar: AppBar(
         elevation: 0,
         title: title.text
@@ -35,7 +40,110 @@ class ProductDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(),
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    /// PRODUCT IMAGE SLIDER
+                    VxSwiper.builder(
+                      itemCount: 3,
+                      autoPlay: true,
+                      height: 260,
+                      aspectRatio: 16 / 8,
+                      itemBuilder: (context, index) {
+                        return Image.asset(
+                          image,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
+                    10.heightBox,
+
+                    /// PRODUCT DETAILS
+                    title.text
+                        .size(18)
+                        .color(darkFontGrey)
+                        .fontFamily(semibold)
+                        .make(),
+                    5.heightBox,
+                    Row(
+                      children: [
+                        const FlutterRating(
+                          size: 20,
+                          rating: 3.5,
+                          borderColor: Colors.amber,
+                          color: golden,
+                          allowHalfRating: true,
+                          starCount: 5,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                        ),
+                        5.widthBox,
+                        Expanded(
+                          child: Row(
+                            children: [
+                              '-  3.5 Rating'
+                                  .text
+                                  .size(14)
+                                  .ellipsis
+                                  .fontFamily(semibold)
+                                  .make(),
+                              5.widthBox,
+                              '(10 reviews)'
+                                  .text
+                                  .size(12)
+                                  .ellipsis
+                                  .fontFamily(regular)
+                                  .make(),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    10.heightBox,
+                    Row(
+                      children: [
+                        '\$1200'
+                            .text
+                            .fontFamily(bold)
+                            .color(redColor)
+                            .size(16)
+                            .make(),
+                        5.widthBox,
+                        '\$1450'
+                            .text
+                            .fontFamily(regular)
+                            .color(fontGrey)
+                            .size(14)
+                            .lineThrough
+                            .make(),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          /// ADD TO CART BUTTON
+          SizedBox(
+            width: double.infinity,
+            height: 60,
+            child: CustomButtonWidget(
+              title: 'Add To Cart',
+              titleColor: whiteColor,
+              backgroundColor: redColor,
+              onPressed: () {},
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

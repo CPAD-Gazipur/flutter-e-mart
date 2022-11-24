@@ -42,7 +42,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   5.heightBox,
-                  customButtonWidget(
+                  CustomButtonWidget(
                     title: login,
                     titleColor: whiteColor,
                     backgroundColor: redColor,
@@ -53,7 +53,7 @@ class LoginScreen extends StatelessWidget {
                   5.heightBox,
                   createNewAccount.text.color(fontGrey).make(),
                   5.heightBox,
-                  customButtonWidget(
+                  CustomButtonWidget(
                     title: singUp,
                     titleColor: redColor,
                     backgroundColor: lightGolden,

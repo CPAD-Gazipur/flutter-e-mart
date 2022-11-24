@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_e_mart/consts/consts.dart';
 import 'package:flutter_e_mart/views/views.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
@@ -35,11 +34,11 @@ class ProductShortDetails extends StatelessWidget {
                   '${100 - (1200 * 100) ~/ 1450}%'
                       .text
                       .size(12)
-                      .fontFamily(semibold)
+                      .fontFamily(bold)
                       .white
                       .make()
                       .box
-                      .color(redColor)
+                      .color(redColor.withOpacity(0.8))
                       .padding(
                         const EdgeInsets.symmetric(
                           horizontal: 10,
@@ -125,6 +124,7 @@ class ProductShortDetails extends StatelessWidget {
           () => Get.to(
             () => const ProductDetailsScreen(
               title: 'Macbook Pro M1 Chip',
+              image: imgP3,
             ),
           ),
         );
