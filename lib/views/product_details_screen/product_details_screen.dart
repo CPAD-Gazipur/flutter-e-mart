@@ -125,6 +125,60 @@ class ProductDetailsScreen extends StatelessWidget {
                             .make(),
                       ],
                     ),
+                    10.heightBox,
+
+                    /// Seller Info
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              'Seller'
+                                  .text
+                                  .white
+                                  .fontFamily(semibold)
+                                  .size(14)
+                                  .make(),
+                              5.heightBox,
+                              'In House Brands'
+                                  .text
+                                  .fontFamily(regular)
+                                  .size(14)
+                                  .color(darkFontGrey)
+                                  .make(),
+                            ],
+                          ),
+                        ),
+                        const CircleAvatar(
+                          backgroundColor: whiteColor,
+                          child: Icon(
+                            Icons.message_outlined,
+                            color: darkFontGrey,
+                          ),
+                        ).onTap(() {
+                          debugPrint('Message Clicked');
+                        }),
+                      ],
+                    )
+                        .box
+                        .height(60)
+                        .color(textFieldGrey)
+                        .roundedSM
+                        .outerShadowSm
+                        .padding(const EdgeInsets.symmetric(horizontal: 16))
+                        .make(),
+                    10.heightBox,
+
+                    ///Choose Product
+                    Column(
+                      children: [
+                        Row(
+                          children: [SizedBox()],
+                        ).box.padding(const EdgeInsets.all(8)).make(),
+                      ],
+                    ).box.white.roundedSM.outerShadowSm.make(),
                   ],
                 ),
               ),
