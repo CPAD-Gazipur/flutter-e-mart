@@ -35,4 +35,13 @@ const categoryImageList = [
   imgFc9
 ];
 
-const productDetailsItemList = [video,review,sellerPolicy,returnPolicy,supportPolicy];
+const productDetailsItemList = [
+  video,
+  review,
+  sellerPolicy,
+  returnPolicy,
+  supportPolicy,
+];
+
+const profileSectionList = [myOrders, myWishList, myMessages];
+const profileSectionListIcon = [icOrders, icOrder, icMessages];

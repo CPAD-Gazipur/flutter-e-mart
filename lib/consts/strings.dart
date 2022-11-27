@@ -56,7 +56,7 @@ const jewelery = 'Jewelery';
 const cellPhoneAndTab = 'Cellphone & Tab';
 const furniture = 'Furniture\'s';
 
-/// PRODUCT DETAILS
+/// PRODUCT DETAILS SECTION TEXT
 const description = 'Description';
 const productDescription =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
@@ -67,3 +67,13 @@ const review = 'Reviews';
 const sellerPolicy = 'Seller Policy';
 const returnPolicy = 'Return Policy';
 const supportPolicy = 'Support Policy';
+
+/// ACCOUNT SECTION TEXT
+const logout = 'Logout';
+
+const orders = 'Orders';
+const wishList = 'Wishlist';
+
+const myMessages = 'My Messages';
+const myOrders = 'My Orders';
+const myWishList = 'My WishList';

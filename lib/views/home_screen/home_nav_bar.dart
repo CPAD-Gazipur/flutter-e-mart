@@ -19,12 +19,22 @@ class HomeNavBar extends StatelessWidget {
           icHome,
           width: 18,
         ),
+        activeIcon: Image.asset(
+          icHome,
+          width: 18,
+          color: redColor,
+        ),
         label: home,
       ),
       BottomNavigationBarItem(
         icon: Image.asset(
           icCategories,
           width: 18,
+        ),
+        activeIcon: Image.asset(
+          icCategories,
+          width: 18,
+          color: redColor,
         ),
         label: categories,
       ),
@@ -33,12 +43,22 @@ class HomeNavBar extends StatelessWidget {
           icCart,
           width: 18,
         ),
+        activeIcon: Image.asset(
+          icCart,
+          width: 18,
+          color: redColor,
+        ),
         label: cart,
       ),
       BottomNavigationBarItem(
         icon: Image.asset(
           icProfile,
           width: 18,
+        ),
+        activeIcon: Image.asset(
+          icProfile,
+          width: 18,
+          color: redColor,
         ),
         label: account,
       ),
