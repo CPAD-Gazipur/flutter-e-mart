@@ -167,18 +167,204 @@ class ProductDetailsScreen extends StatelessWidget {
                         .color(textFieldGrey)
                         .roundedSM
                         .outerShadowSm
+                        .margin(const EdgeInsets.symmetric(horizontal: 2))
                         .padding(const EdgeInsets.symmetric(horizontal: 16))
                         .make(),
-                    10.heightBox,
+                    20.heightBox,
 
-                    ///Choose Product
+                    /// Product Variation
                     Column(
                       children: [
+                        /// Color Choose
+                        10.heightBox,
                         Row(
-                          children: [SizedBox()],
+                          children: [
+                            SizedBox(
+                              width: 100,
+                              child: 'Color:'.text.color(textFieldGrey).make(),
+                            ),
+                            Row(
+                              children: List.generate(
+                                3,
+                                (index) => VxBox()
+                                    .size(40, 40)
+                                    .roundedFull
+                                    .color(Vx.randomPrimaryColor)
+                                    .margin(
+                                      const EdgeInsets.symmetric(
+                                        horizontal: 4,
+                                      ),
+                                    )
+                                    .make(),
+                              ),
+                            )
+                          ],
                         ).box.padding(const EdgeInsets.all(8)).make(),
+                        10.heightBox,
+
+                        /// Quantity
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 100,
+                              child:
+                                  'Quantity:'.text.color(textFieldGrey).make(),
+                            ),
+                            Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.remove),
+                                ),
+                                '0'
+                                    .text
+                                    .size(16)
+                                    .color(darkFontGrey)
+                                    .fontFamily(bold)
+                                    .make(),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.add),
+                                ),
+                                10.widthBox,
+                                '(0 available)'
+                                    .text
+                                    .color(textFieldGrey)
+                                    .make(),
+                              ],
+                            )
+                          ],
+                        ).box.padding(const EdgeInsets.all(8)).make(),
+                        10.heightBox,
+
+                        /// Total Price
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 100,
+                              child: 'Total:'.text.color(textFieldGrey).make(),
+                            ),
+                            '\$1200.00'
+                                .text
+                                .size(16)
+                                .color(redColor)
+                                .fontFamily(bold)
+                                .make(),
+                          ],
+                        ).box.padding(const EdgeInsets.all(8)).make(),
+                        10.heightBox,
                       ],
-                    ).box.white.roundedSM.outerShadowSm.make(),
+                    )
+                        .box
+                        .white
+                        .roundedSM
+                        .outerShadow
+                        .margin(const EdgeInsets.symmetric(horizontal: 2))
+                        .make(),
+                    20.heightBox,
+
+                    /// Product Description
+                    description.text
+                        .size(18)
+                        .color(darkFontGrey)
+                        .fontFamily(semibold)
+                        .make(),
+                    10.heightBox,
+                    productDescription.text
+                        .color(darkFontGrey)
+                        .justify
+                        .make()
+                        .box
+                        .padding(
+                          const EdgeInsets.symmetric(
+                            horizontal: 2,
+                          ),
+                        )
+                        .make(),
+                    20.heightBox,
+
+                    /// Product Detail Items
+                    ListView(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: List.generate(
+                        productDetailsItemList.length,
+                        (index) => ListTile(
+                          title: productDetailsItemList[index]
+                              .text
+                              .fontFamily(semibold)
+                              .color(darkFontGrey)
+                              .make(),
+                          trailing: const Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 16,
+                          ),
+                        )
+                            .box
+                            .white
+                            .roundedSM
+                            .margin(
+                              const EdgeInsets.symmetric(
+                                vertical: 4,
+                                horizontal: 2,
+                              ),
+                            )
+                            .outerShadow
+                            .make(),
+                      ),
+                    ),
+                    20.heightBox,
+
+                    /// Similar Product
+                    productYouMayAlsoLike.text
+                        .size(18)
+                        .color(darkFontGrey)
+                        .fontFamily(semibold)
+                        .make(),
+                    10.heightBox,
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: List.generate(
+                          6,
+                          (index) => Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset(
+                                imgP1,
+                                width: 130,
+                                fit: BoxFit.cover,
+                              ),
+                              10.heightBox,
+                              'Laptop 8GB/64GB'
+                                  .text
+                                  .fontFamily(semibold)
+                                  .color(darkFontGrey)
+                                  .make(),
+                              10.heightBox,
+                              '\$600'
+                                  .text
+                                  .fontFamily(bold)
+                                  .color(redColor)
+                                  .size(14)
+                                  .make(),
+                            ],
+                          )
+                              .box
+                              .white
+                              .roundedSM
+                              .outerShadow
+                              .margin(
+                                const EdgeInsets.symmetric(
+                                  horizontal: 4.0,
+                                  vertical: 4.0,
+                                ),
+                              )
+                              .padding(const EdgeInsets.all(8.0))
+                              .make(),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
