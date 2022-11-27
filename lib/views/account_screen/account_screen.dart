@@ -104,7 +104,7 @@ class AccountScreen extends StatelessWidget {
                     title: orders,
                   ),
                 ],
-              ),
+              ).box.padding(const EdgeInsets.symmetric(vertical: 4.0)).make(),
 
               ListView.separated(
                 shrinkWrap: true,
@@ -120,6 +120,10 @@ class AccountScreen extends StatelessWidget {
                       profileSectionListIcon[index],
                       width: 18,
                     ),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 16,
+                    ),
                   );
                 },
                 separatorBuilder: (context, index) {
@@ -130,9 +134,17 @@ class AccountScreen extends StatelessWidget {
                   .box
                   .white
                   .roundedSM
-                  .margin(const EdgeInsets.all(12.0))
-                  .padding(const EdgeInsets.symmetric(horizontal: 16))
-                  .outerShadowSm
+                  .margin(const EdgeInsets.only(
+                    left: 12.0,
+                    right: 12.0,
+                    bottom: 16.0,
+                    top: 30.0,
+                  ))
+                  .padding(const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8.0,
+                  ))
+                  .outerShadow
                   .make()
                   .box
                   .color(redColor)

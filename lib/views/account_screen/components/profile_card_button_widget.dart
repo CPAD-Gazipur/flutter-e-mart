@@ -17,9 +17,9 @@ Widget profileCardButtonWidget({
       .box
       .white
       .roundedSM
-      .outerShadow
       .width(context.screenWidth / 3.5)
       .height(70)
       .padding(const EdgeInsets.all(4))
+      .outerShadow
       .make();
 }
