@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter_e_mart/consts/consts.dart';
+import 'package:flutter_e_mart/controllers/controllers.dart';
+import 'package:flutter_e_mart/views/home_screen/home_nav_bar.dart';
 import 'package:flutter_e_mart/widgets/widgets.dart';
 import 'package:get/get.dart';
 
@@ -12,6 +14,11 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   bool isPolicyAndTermsChecked = false;
+  var authController = Get.put(AuthController());
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,27 +40,27 @@ class _SignupScreenState extends State<SignupScreen> {
                       label: name,
                       hintText: nameHint,
                       keyboardType: TextInputType.name,
-                      // controller: controller,
+                      controller: nameController,
                     ),
                     customTextFormFieldWidget(
                       label: email,
                       hintText: emailHint,
                       keyboardType: TextInputType.emailAddress,
-                      // controller: controller,
+                      controller: emailController,
                     ),
                     customTextFormFieldWidget(
                       label: password,
                       hintText: passwordHint,
                       keyboardType: TextInputType.text,
                       isPassword: true,
-                      // controller: controller,
+                      controller: passwordController,
                     ),
                     customTextFormFieldWidget(
                       label: confirmPassword,
                       hintText: passwordHint,
                       keyboardType: TextInputType.text,
                       isPassword: true,
-                      // controller: controller,
+                      controller: confirmPasswordController,
                     ),
                     Row(
                       children: [
@@ -130,7 +137,40 @@ class _SignupScreenState extends State<SignupScreen> {
                       titleColor: whiteColor,
                       backgroundColor:
                           isPolicyAndTermsChecked ? redColor : lightGrey,
-                      onPressed: isPolicyAndTermsChecked ? () {} : null,
+                      onPressed: isPolicyAndTermsChecked
+                          ? () async {
+                              try {
+                                await authController
+                                    .signUpWithEmailAndPassword(
+                                  context: context,
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                )
+                                    .then((userCredentials) {
+                                  if (userCredentials != null) {
+                                    if (userCredentials
+                                        .additionalUserInfo!.isNewUser) {
+                                      return authController
+                                          .storeNewUserDataIntoFireStore(
+                                        name: nameController.text,
+                                        email: emailController.text,
+                                        imageUrl:
+                                            userCredentials.user?.photoURL ??
+                                                '',
+                                      );
+                                    }
+                                  }
+                                }).then((value) {
+                                  VxToast.show(context, msg: loggedIn);
+                                  Get.offAll(() => const HomeNavBar());
+                                });
+                              } catch (e) {
+                                authController.signOutUser(context: context);
+                                debugPrint('SIGNUP ERROR: $e');
+                                VxToast.show(context, msg: e.toString());
+                              }
+                            }
+                          : null,
                     ).box.width(context.screenWidth - 60).make(),
                     10.heightBox,
                     RichText(
