@@ -44,7 +44,7 @@ class AuthController extends GetxController {
   }
 
   /// STORE NEW USER DATA
-  void storeNewUserDataIntoFireStore({
+  storeNewUserDataIntoFireStore({
     required String name,
     required String email,
     required String imageUrl,
@@ -59,7 +59,7 @@ class AuthController extends GetxController {
   }
 
   /// SING-OUT USER
-  void signOutUser({required BuildContext context}) async {
+  signOutUser({required BuildContext context}) async {
     try {
       await auth.signOut();
     } catch (e) {
