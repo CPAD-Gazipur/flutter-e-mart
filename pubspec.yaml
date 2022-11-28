@@ -39,6 +39,12 @@ dependencies:
   velocity_x: ^3.6.0
   get: ^4.6.5
   flutter_rating_native: ^0.0.2
+  firebase_core: ^2.3.0
+  firebase_auth: ^4.1.4
+  firebase_storage: ^11.0.6
+  cloud_firestore: ^4.1.0
+  firebase_analytics: ^10.0.6
+  firebase_crashlytics: ^3.0.6
 
 dev_dependencies:
   flutter_test:
