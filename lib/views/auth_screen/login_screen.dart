@@ -1,4 +1,5 @@
 import 'package:flutter_e_mart/consts/consts.dart';
+import 'package:flutter_e_mart/controllers/auth_controller.dart';
 import 'package:flutter_e_mart/views/views.dart';
 import 'package:flutter_e_mart/widgets/widgets.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var authController = Get.put(AuthController());
+
     return backgroundWidget(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -25,14 +28,14 @@ class LoginScreen extends StatelessWidget {
                     label: email,
                     hintText: emailHint,
                     keyboardType: TextInputType.emailAddress,
-                    // controller: controller,
+                    controller: authController.emailController,
                   ),
                   customTextFormFieldWidget(
                     label: password,
                     hintText: passwordHint,
                     keyboardType: TextInputType.text,
                     isPassword: true,
-                    // controller: controller,
+                    controller: authController.passwordController,
                   ),
                   Align(
                     alignment: Alignment.centerRight,
@@ -46,7 +49,20 @@ class LoginScreen extends StatelessWidget {
                     title: login,
                     titleColor: whiteColor,
                     backgroundColor: redColor,
-                    onPressed: () {
+                    onPressed: () async {
+                      try {
+                        await authController
+                            .loginWithEmailAndPassword(context: context)
+                            .then((userCredential) {
+                          if (userCredential != null) {
+                            Get.offAll(() => const HomeNavBar());
+                          }
+                        });
+                      } catch (e) {
+                        VxToast.show(context, msg: e.toString());
+                        await authController.signOutUser(context: context);
+                      }
+
                       Get.to(() => const HomeNavBar());
                     },
                   ).box.width(context.screenWidth - 60).make(),

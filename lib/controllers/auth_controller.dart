@@ -5,17 +5,20 @@ import 'package:get/get.dart';
 import '../consts/consts.dart';
 
 class AuthController extends GetxController {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   /// LOGIN WITH EMAIL & PASSWORD
   Future<UserCredential?> loginWithEmailAndPassword({
     required BuildContext context,
-    required String email,
-    required String password,
   }) async {
     UserCredential? userCredential;
 
     try {
       userCredential = await auth.signInWithEmailAndPassword(
-          email: email, password: password);
+        email: emailController.text,
+        password: passwordController.text,
+      );
     } on FirebaseAuthException catch (e) {
       VxToast.show(context, msg: e.toString());
       debugPrint('Login Error: $e');
@@ -34,7 +37,9 @@ class AuthController extends GetxController {
 
     try {
       userCredential = await auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+        email: email,
+        password: password,
+      );
     } on FirebaseAuthException catch (e) {
       VxToast.show(context, msg: e.toString());
       debugPrint('SignUp Error: $e');
