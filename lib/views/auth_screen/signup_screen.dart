@@ -152,6 +152,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                         .additionalUserInfo!.isNewUser) {
                                       return authController
                                           .storeNewUserDataIntoFireStore(
+                                        uID: userCredentials.user!.uid,
                                         name: nameController.text,
                                         email: emailController.text,
                                         imageUrl:

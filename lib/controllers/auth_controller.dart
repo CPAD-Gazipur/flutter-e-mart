@@ -50,14 +50,16 @@ class AuthController extends GetxController {
 
   /// STORE NEW USER DATA
   storeNewUserDataIntoFireStore({
+    required String uID,
     required String name,
     required String email,
     required String imageUrl,
   }) async {
     DocumentReference userDoc =
-        firebaseFirestore.collection(userCollection).doc(currentUser!.uid);
+        firebaseFirestore.collection(userCollection).doc(uID);
     userDoc.set({
       'name': name,
+      'uID': uID,
       'email': email,
       'imageUrl': imageUrl,
     });

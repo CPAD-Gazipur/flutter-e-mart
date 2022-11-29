@@ -55,6 +55,7 @@ class LoginScreen extends StatelessWidget {
                             .loginWithEmailAndPassword(context: context)
                             .then((userCredential) {
                           if (userCredential != null) {
+                            debugPrint('-----uID: ${userCredential.user?.uid}');
                             Get.offAll(() => const HomeNavBar());
                           }
                         });
@@ -62,8 +63,6 @@ class LoginScreen extends StatelessWidget {
                         VxToast.show(context, msg: e.toString());
                         await authController.signOutUser(context: context);
                       }
-
-                      Get.to(() => const HomeNavBar());
                     },
                   ).box.width(context.screenWidth - 60).make(),
                   5.heightBox,
