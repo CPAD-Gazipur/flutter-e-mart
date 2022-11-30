@@ -34,181 +34,197 @@ class _SignupScreenState extends State<SignupScreen> {
                 10.heightBox,
                 'Join to $appName'.text.fontFamily(bold).white.make(),
                 15.heightBox,
-                Column(
-                  children: [
-                    customTextFormFieldWidget(
-                      label: name,
-                      hintText: nameHint,
-                      keyboardType: TextInputType.name,
-                      controller: nameController,
-                    ),
-                    customTextFormFieldWidget(
-                      label: email,
-                      hintText: emailHint,
-                      keyboardType: TextInputType.emailAddress,
-                      controller: emailController,
-                    ),
-                    customTextFormFieldWidget(
-                      label: password,
-                      hintText: passwordHint,
-                      keyboardType: TextInputType.text,
-                      isPassword: true,
-                      controller: passwordController,
-                    ),
-                    customTextFormFieldWidget(
-                      label: confirmPassword,
-                      hintText: passwordHint,
-                      keyboardType: TextInputType.text,
-                      isPassword: true,
-                      controller: confirmPasswordController,
-                    ),
-                    Row(
-                      children: [
-                        Checkbox(
-                          activeColor: redColor,
-                          value: isPolicyAndTermsChecked,
-                          onChanged: (newValue) {
-                            setState(() {
-                              isPolicyAndTermsChecked = newValue!;
-                            });
-                          },
-                        ),
-                        Expanded(
-                          child: RichText(
-                            text: TextSpan(
-                              children: [
-                                const TextSpan(
-                                  text: 'I agree to the ',
-                                  style: TextStyle(
-                                    fontFamily: regular,
-                                    color: fontGrey,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                TextSpan(
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      debugPrint('Terms & Conditions');
-                                    },
-                                  text: terms,
-                                  style: const TextStyle(
-                                    fontFamily: semibold,
-                                    color: redColor,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                const TextSpan(
-                                  text: ' and ',
-                                  style: TextStyle(
-                                    fontFamily: regular,
-                                    color: fontGrey,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                TextSpan(
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      debugPrint('Privacy Policy');
-                                    },
-                                  text: privacy,
-                                  style: const TextStyle(
-                                    fontFamily: semibold,
-                                    color: redColor,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                const TextSpan(
-                                  text: '.',
-                                  style: TextStyle(
-                                    fontFamily: regular,
-                                    color: fontGrey,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    5.heightBox,
-                    CustomButtonWidget(
-                      title: singUp,
-                      titleColor: whiteColor,
-                      backgroundColor:
-                          isPolicyAndTermsChecked ? redColor : lightGrey,
-                      onPressed: isPolicyAndTermsChecked
-                          ? () async {
-                              try {
-                                await authController
-                                    .signUpWithEmailAndPassword(
-                                  context: context,
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                )
-                                    .then((userCredentials) {
-                                  if (userCredentials != null) {
-                                    if (userCredentials
-                                        .additionalUserInfo!.isNewUser) {
-                                      return authController
-                                          .storeNewUserDataIntoFireStore(
-                                        uID: userCredentials.user!.uid,
-                                        name: nameController.text,
-                                        email: emailController.text,
-                                        imageUrl:
-                                            userCredentials.user?.photoURL ??
-                                                '',
-                                      );
-                                    }
-                                  }
-                                }).then((value) {
-                                  VxToast.show(context, msg: loggedIn);
-                                  Get.offAll(() => const HomeNavBar());
-                                });
-                              } catch (e) {
-                                authController.signOutUser(context: context);
-                                debugPrint('SIGNUP ERROR: $e');
-                                VxToast.show(context, msg: e.toString());
-                              }
-                            }
-                          : null,
-                    ).box.width(context.screenWidth - 60).make(),
-                    10.heightBox,
-                    RichText(
-                      text: TextSpan(
+                Obx(
+                  () => Column(
+                    children: [
+                      customTextFormFieldWidget(
+                        label: name,
+                        hintText: nameHint,
+                        keyboardType: TextInputType.name,
+                        controller: nameController,
+                      ),
+                      customTextFormFieldWidget(
+                        label: email,
+                        hintText: emailHint,
+                        keyboardType: TextInputType.emailAddress,
+                        controller: emailController,
+                      ),
+                      customTextFormFieldWidget(
+                        label: password,
+                        hintText: passwordHint,
+                        keyboardType: TextInputType.text,
+                        isPassword: true,
+                        controller: passwordController,
+                      ),
+                      customTextFormFieldWidget(
+                        label: confirmPassword,
+                        hintText: passwordHint,
+                        keyboardType: TextInputType.text,
+                        isPassword: true,
+                        controller: confirmPasswordController,
+                      ),
+                      Row(
                         children: [
-                          const TextSpan(
-                            text: alreadyHaveAccount,
-                            style: TextStyle(
-                              fontFamily: regular,
-                              color: fontGrey,
-                              fontSize: 14,
-                            ),
+                          Checkbox(
+                            activeColor: redColor,
+                            value: isPolicyAndTermsChecked,
+                            onChanged: (newValue) {
+                              setState(() {
+                                isPolicyAndTermsChecked = newValue!;
+                              });
+                            },
                           ),
-                          TextSpan(
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Get.back();
-                              },
-                            text: login,
-                            style: const TextStyle(
-                              fontFamily: bold,
-                              color: redColor,
-                              fontSize: 14,
+                          Expanded(
+                            child: RichText(
+                              text: TextSpan(
+                                children: [
+                                  const TextSpan(
+                                    text: 'I agree to the ',
+                                    style: TextStyle(
+                                      fontFamily: regular,
+                                      color: fontGrey,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        debugPrint('Terms & Conditions');
+                                      },
+                                    text: terms,
+                                    style: const TextStyle(
+                                      fontFamily: semibold,
+                                      color: redColor,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  const TextSpan(
+                                    text: ' and ',
+                                    style: TextStyle(
+                                      fontFamily: regular,
+                                      color: fontGrey,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        debugPrint('Privacy Policy');
+                                      },
+                                    text: privacy,
+                                    style: const TextStyle(
+                                      fontFamily: semibold,
+                                      color: redColor,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  const TextSpan(
+                                    text: '.',
+                                    style: TextStyle(
+                                      fontFamily: regular,
+                                      color: fontGrey,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                )
-                    .box
-                    .white
-                    .rounded
-                    .padding(const EdgeInsets.all(16.0))
-                    .width(context.screenWidth - 40)
-                    .shadowSm
-                    .make(),
+                      5.heightBox,
+                      authController.isLoading.value
+                          ? const Center(
+                              child: CircularProgressIndicator.adaptive(
+                                valueColor: AlwaysStoppedAnimation(redColor),
+                              ),
+                            )
+                          : CustomButtonWidget(
+                              title: singUp,
+                              titleColor: whiteColor,
+                              backgroundColor: isPolicyAndTermsChecked
+                                  ? redColor
+                                  : lightGrey,
+                              onPressed: isPolicyAndTermsChecked
+                                  ? () async {
+                                      try {
+                                        authController.isLoading(true);
+
+                                        await authController
+                                            .signUpWithEmailAndPassword(
+                                          context: context,
+                                          email: emailController.text,
+                                          password: passwordController.text,
+                                        )
+                                            .then((userCredentials) {
+                                          if (userCredentials != null) {
+                                            if (userCredentials
+                                                .additionalUserInfo!
+                                                .isNewUser) {
+                                              return authController
+                                                  .storeNewUserDataIntoFireStore(
+                                                uID: userCredentials.user!.uid,
+                                                name: nameController.text,
+                                                email: emailController.text,
+                                                imageUrl: userCredentials
+                                                        .user?.photoURL ??
+                                                    '',
+                                              );
+                                            }
+                                          }
+                                          authController.isLoading(false);
+                                        }).then((value) {
+                                          VxToast.show(context, msg: loggedIn);
+                                          Get.offAll(() => const HomeNavBar());
+                                        });
+                                      } catch (e) {
+                                        authController.isLoading(false);
+                                        authController.signOutUser(
+                                            context: context);
+                                        debugPrint('SIGNUP ERROR: $e');
+                                        VxToast.show(context,
+                                            msg: e.toString());
+                                      }
+                                    }
+                                  : null,
+                            ).box.width(context.screenWidth - 60).make(),
+                      10.heightBox,
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            const TextSpan(
+                              text: alreadyHaveAccount,
+                              style: TextStyle(
+                                fontFamily: regular,
+                                color: fontGrey,
+                                fontSize: 14,
+                              ),
+                            ),
+                            TextSpan(
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Get.back();
+                                },
+                              text: login,
+                              style: const TextStyle(
+                                fontFamily: bold,
+                                color: redColor,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                      .box
+                      .white
+                      .rounded
+                      .padding(const EdgeInsets.all(16.0))
+                      .width(context.screenWidth - 40)
+                      .shadowSm
+                      .make(),
+                ),
               ],
             ),
           ),
