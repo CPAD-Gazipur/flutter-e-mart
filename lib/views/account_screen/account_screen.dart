@@ -24,7 +24,7 @@ class AccountScreen extends StatelessWidget {
                 ),
               )
                   .onTap(() {
-                    debugPrint('EDIT PROFILE');
+                    Get.to(() => const EditProfileScreen());
                   })
                   .box
                   .padding(const EdgeInsets.symmetric(horizontal: 16.0))
