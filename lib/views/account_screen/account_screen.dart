@@ -1,5 +1,5 @@
 import 'package:flutter_e_mart/consts/consts.dart';
-import 'package:flutter_e_mart/controllers/auth_controller.dart';
+import 'package:flutter_e_mart/controllers/controllers.dart';
 import 'package:flutter_e_mart/views/views.dart';
 import 'package:flutter_e_mart/widgets/background_widget.dart';
 import 'package:get/get.dart';
@@ -9,6 +9,8 @@ class AccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var profileController = Get.put(ProfileController());
+
     return backgroundWidget(
       child: Scaffold(
         body: SafeArea(
