@@ -6,6 +6,9 @@ import 'package:image_picker/image_picker.dart';
 class ProfileController extends GetxController {
   var profileImageUrl = ''.obs;
 
+  var nameController = TextEditingController();
+  var passwordController = TextEditingController();
+
   uploadImage({
     required BuildContext context,
   }) async {

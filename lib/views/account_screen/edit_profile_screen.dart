@@ -8,11 +8,18 @@ import 'package:flutter_e_mart/widgets/custom_text_form_field_widget.dart';
 import 'package:get/get.dart';
 
 class EditProfileScreen extends StatelessWidget {
-  const EditProfileScreen({Key? key}) : super(key: key);
+  final dynamic data;
+
+  const EditProfileScreen({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var profileController = Get.find<ProfileController>();
+
+    profileController.nameController.text = data['name'];
 
     return backgroundWidget(
       child: Scaffold(
@@ -29,8 +36,10 @@ class EditProfileScreen extends StatelessWidget {
             children: [
               /// PROFILE SCREEN
               profileController.profileImageUrl.isEmpty
-                  ? Image.asset(
-                      imgProfile2,
+                  ? Image.network(
+                      data['imageUrl'] == ''
+                          ? profileImage
+                          : '${data['imageUrl']}',
                       fit: BoxFit.cover,
                       width: 80,
                     )
@@ -76,10 +85,12 @@ class EditProfileScreen extends StatelessWidget {
               const Divider(),
               20.heightBox,
               customTextFormFieldWidget(
+                controller: profileController.nameController,
                 label: name,
                 hintText: nameHint,
               ),
               customTextFormFieldWidget(
+                controller: profileController.passwordController,
                 label: password,
                 hintText: passwordHint,
                 isPassword: true,
