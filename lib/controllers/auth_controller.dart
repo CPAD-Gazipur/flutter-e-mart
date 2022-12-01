@@ -64,6 +64,9 @@ class AuthController extends GetxController {
       'uID': uID,
       'email': email,
       'imageUrl': imageUrl,
+      'cart': [],
+      'wishlist': [],
+      'orders': [],
     });
   }
 

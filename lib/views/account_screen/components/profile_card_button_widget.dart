@@ -4,6 +4,7 @@ Widget profileCardButtonWidget({
   required BuildContext context,
   required String total,
   required String title,
+  Function()? onPressed,
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -21,5 +22,6 @@ Widget profileCardButtonWidget({
       .height(70)
       .padding(const EdgeInsets.all(4))
       .outerShadow
-      .make();
+      .make()
+      .onTap(onPressed);
 }
