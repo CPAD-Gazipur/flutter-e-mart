@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_e_mart/consts/consts.dart';
 import 'package:flutter_e_mart/controllers/controllers.dart';
@@ -60,18 +61,32 @@ class AccountScreen extends StatelessWidget {
 
                     Row(
                       children: [
-                        Image.network(
-                          data['imageUrl'] == ''
-                              ? profileImage
-                              : '${data['imageUrl']}',
-                          fit: BoxFit.cover,
-                          width: 70,
+                        CircleAvatar(
+                          radius: 35,
+                          backgroundColor: Colors.transparent,
+                          child: CachedNetworkImage(
+                            imageUrl: '${data['imageUrl']}',
+                            imageBuilder: (context, imageProvider) => Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ).box.roundedFull.clip(Clip.antiAlias).make(),
+                            placeholder: (context, url) => const Center(
+                              child: CircularProgressIndicator.adaptive(
+                                valueColor: AlwaysStoppedAnimation(redColor),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                Image.network(profileImage)
+                                    .box
+                                    .roundedFull
+                                    .clip(Clip.antiAlias)
+                                    .make(),
+                          ),
                         )
-                            .box
-                            .white
-                            .roundedFull
-                            .clip(Clip.antiAlias)
-                            .make()
                             .box
                             .white
                             .roundedFull
