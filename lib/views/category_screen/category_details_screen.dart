@@ -57,7 +57,7 @@ class CategoryDetailsScreen extends StatelessWidget {
                     crossAxisCount: 2,
                     mainAxisSpacing: 8,
                     crossAxisSpacing: 8,
-                    mainAxisExtent: 280,
+                    mainAxisExtent: 282,
                   ),
                   itemBuilder: (context, index) {
                     return const ProductShortDetails();
