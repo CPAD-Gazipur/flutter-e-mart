@@ -119,8 +119,14 @@ class EditProfileScreen extends StatelessWidget {
                           onPressed: () async {
                             profileController.isLoading(true);
 
-                            await profileController
-                                .uploadProfileImageToFireStore();
+                            if (profileController
+                                .profileImageUrl.value.isNotEmpty) {
+                              await profileController
+                                  .uploadProfileImageToFireStore();
+                            } else {
+                              profileController.profileImageDownloadedUrl =
+                                  data['imageUrl'];
+                            }
 
                             await profileController.updateProfileInfo(
                               name: profileController.nameController.text,
