@@ -19,8 +19,6 @@ class EditProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var profileController = Get.find<ProfileController>();
 
-    profileController.nameController.text = data['name'];
-
     return backgroundWidget(
       child: Scaffold(
         appBar: AppBar(
@@ -31,95 +29,116 @@ class EditProfileScreen extends StatelessWidget {
           ),
         ),
         body: Obx(
-          () => Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              /// PROFILE SCREEN
-              profileController.profileImageUrl.isEmpty
-                  ? Image.network(
-                      data['imageUrl'] == ''
-                          ? profileImage
-                          : '${data['imageUrl']}',
-                      fit: BoxFit.cover,
-                      width: 80,
-                    )
-                      .box
-                      .white
-                      .roundedFull
-                      .clip(Clip.antiAlias)
-                      .make()
-                      .box
-                      .white
-                      .roundedFull
-                      .clip(Clip.antiAlias)
-                      .padding(const EdgeInsets.all(2))
-                      .outerShadow
-                      .make()
-                  : Image.file(
-                      File(profileController.profileImageUrl.value),
-                      fit: BoxFit.cover,
-                      width: 80,
-                    )
-                      .box
-                      .white
-                      .roundedFull
-                      .clip(Clip.antiAlias)
-                      .make()
-                      .box
-                      .white
-                      .roundedFull
-                      .clip(Clip.antiAlias)
-                      .padding(const EdgeInsets.all(2))
-                      .outerShadow
-                      .make(),
+          () => SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                /// PROFILE SCREEN
+                profileController.profileImageUrl.isEmpty
+                    ? Image.network(
+                        data['imageUrl'] == ''
+                            ? profileImage
+                            : '${data['imageUrl']}',
+                        fit: BoxFit.cover,
+                        width: 80,
+                      )
+                        .box
+                        .white
+                        .roundedFull
+                        .clip(Clip.antiAlias)
+                        .make()
+                        .box
+                        .white
+                        .roundedFull
+                        .clip(Clip.antiAlias)
+                        .padding(const EdgeInsets.all(2))
+                        .outerShadow
+                        .make()
+                    : Image.file(
+                        File(profileController.profileImageUrl.value),
+                        fit: BoxFit.cover,
+                        width: 80,
+                      )
+                        .box
+                        .white
+                        .roundedFull
+                        .clip(Clip.antiAlias)
+                        .make()
+                        .box
+                        .white
+                        .roundedFull
+                        .clip(Clip.antiAlias)
+                        .padding(const EdgeInsets.all(2))
+                        .outerShadow
+                        .make(),
 
-              5.heightBox,
-              CustomButtonWidget(
-                title: 'Upload Image',
-                titleColor: whiteColor,
-                backgroundColor: redColor,
-                onPressed: () {
-                  profileController.uploadImage(context: context);
-                },
-              ),
-              const Divider(),
-              20.heightBox,
-              customTextFormFieldWidget(
-                controller: profileController.nameController,
-                label: name,
-                hintText: nameHint,
-              ),
-              customTextFormFieldWidget(
-                controller: profileController.passwordController,
-                label: password,
-                hintText: passwordHint,
-                isPassword: true,
-              ),
-              20.heightBox,
-              SizedBox(
-                width: context.screenWidth - 20,
-                child: CustomButtonWidget(
-                  title: 'Save',
+                5.heightBox,
+                CustomButtonWidget(
+                  title: 'Upload Image',
                   titleColor: whiteColor,
                   backgroundColor: redColor,
-                  onPressed: () {},
+                  onPressed: () {
+                    profileController.getImageFromGallery(context: context);
+                  },
                 ),
-              ),
-            ],
-          )
-              .box
-              .white
-              .roundedSM
-              .outerShadow
-              .padding(const EdgeInsets.all(16))
-              .margin(
-                const EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                  top: 50,
+                const Divider(),
+                20.heightBox,
+                customTextFormFieldWidget(
+                  controller: profileController.nameController,
+                  label: name,
+                  hintText: nameHint,
                 ),
-              )
-              .make(),
+                20.heightBox,
+                SizedBox(
+                  width: context.screenWidth - 20,
+                  child: profileController.isLoading.value
+                      ? const Center(
+                          child: CircularProgressIndicator.adaptive(
+                            valueColor: AlwaysStoppedAnimation(redColor),
+                          ),
+                        )
+                      : CustomButtonWidget(
+                          title: 'Save',
+                          titleColor: whiteColor,
+                          backgroundColor: redColor,
+                          onPressed: () async {
+                            profileController.isLoading(true);
+
+                            await profileController
+                                .uploadProfileImageToFireStore();
+
+                            await profileController.updateProfileInfo(
+                              name: profileController.nameController.text,
+                              imageUrl: profileController
+                                  .profileImageDownloadedUrl.value,
+                            );
+
+                            // ignore: use_build_context_synchronously
+                            VxToast.show(
+                              context,
+                              msg: 'Updated',
+                              bgColor: redColor,
+                              textColor: whiteColor,
+                            );
+                          },
+                        ),
+                ),
+              ],
+            )
+                .box
+                .white
+                .roundedSM
+                .outerShadow
+                .padding(const EdgeInsets.all(16))
+                .margin(
+                  const EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                    top: 50,
+                  ),
+                )
+                .make(),
+          ),
         ),
       ),
     );

@@ -43,6 +43,9 @@ class AccountScreen extends StatelessWidget {
                       ),
                     )
                         .onTap(() {
+                          profileController.nameController.text = data['name'];
+                          profileController.profileImageUrl.value = '';
+
                           Get.to(
                             () => EditProfileScreen(
                               data: data,
