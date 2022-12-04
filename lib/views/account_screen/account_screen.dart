@@ -32,6 +32,16 @@ class AccountScreen extends StatelessWidget {
               } else {
                 var data = snapshot.data!.docs[0];
 
+                var profileImageURL = '';
+
+                try {
+                  profileImageURL = data['imageUrl'];
+                } catch (e) {
+                  profileImageURL = profileImage;
+                }
+
+                debugPrint('URL: $profileImageURL');
+
                 return Column(
                   children: [
                     /// PROFILE INFO SECTION
@@ -65,7 +75,7 @@ class AccountScreen extends StatelessWidget {
                           radius: 35,
                           backgroundColor: Colors.transparent,
                           child: CachedNetworkImage(
-                            imageUrl: '${data['imageUrl']}',
+                            imageUrl: profileImageURL,
                             imageBuilder: (context, imageProvider) => Container(
                               decoration: BoxDecoration(
                                 image: DecorationImage(
@@ -80,7 +90,7 @@ class AccountScreen extends StatelessWidget {
                               ),
                             ),
                             errorWidget: (context, url, error) =>
-                                Image.network(profileImage)
+                                Image.network(profileImageURL)
                                     .box
                                     .roundedFull
                                     .clip(Clip.antiAlias)

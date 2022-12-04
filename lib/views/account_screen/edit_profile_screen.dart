@@ -117,30 +117,40 @@ class EditProfileScreen extends StatelessWidget {
                           titleColor: whiteColor,
                           backgroundColor: redColor,
                           onPressed: () async {
-                            profileController.isLoading(true);
-
                             if (profileController
-                                .profileImageUrl.value.isNotEmpty) {
-                              await profileController
-                                  .uploadProfileImageToFireStore();
+                                .nameController.text.isNotEmpty) {
+                              profileController.isLoading(true);
+
+                              if (profileController
+                                  .profileImageUrl.value.isNotEmpty) {
+                                await profileController
+                                    .uploadProfileImageToFireStore();
+                              } else {
+                                profileController.profileImageDownloadedUrl
+                                    .value = data['imageUrl'];
+                              }
+
+                              await profileController.updateProfileInfo(
+                                name: profileController.nameController.text,
+                                imageUrl: profileController
+                                    .profileImageDownloadedUrl.value,
+                              );
+
+                              // ignore: use_build_context_synchronously
+                              VxToast.show(
+                                context,
+                                msg: 'Updated',
+                                bgColor: redColor,
+                                textColor: whiteColor,
+                              );
                             } else {
-                              profileController.profileImageDownloadedUrl =
-                                  data['imageUrl'];
+                              VxToast.show(
+                                context,
+                                msg: 'Name can\'t be empty!',
+                                bgColor: redColor,
+                                textColor: whiteColor,
+                              );
                             }
-
-                            await profileController.updateProfileInfo(
-                              name: profileController.nameController.text,
-                              imageUrl: profileController
-                                  .profileImageDownloadedUrl.value,
-                            );
-
-                            // ignore: use_build_context_synchronously
-                            VxToast.show(
-                              context,
-                              msg: 'Updated',
-                              bgColor: redColor,
-                              textColor: whiteColor,
-                            );
                           },
                         ),
                 ),
