@@ -1,6 +1,8 @@
 import 'package:flutter_e_mart/consts/consts.dart';
+import 'package:flutter_e_mart/controllers/controllers.dart';
 import 'package:flutter_e_mart/widgets/background_widget.dart';
 import 'package:flutter_e_mart/widgets/product_short_details_widget.dart';
+import 'package:get/get.dart';
 
 class CategoryDetailsScreen extends StatelessWidget {
   final String title;
@@ -9,6 +11,8 @@ class CategoryDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var productController = Get.find<ProductController>();
+
     return backgroundWidget(
       child: Scaffold(
         appBar: AppBar(
@@ -20,8 +24,12 @@ class CategoryDetailsScreen extends StatelessWidget {
           ),
         ),
         body: Container(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.only(
+            left: 12,
+            right: 12,
+          ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               /// SUB CATEGORY LIST
               SingleChildScrollView(
@@ -29,8 +37,8 @@ class CategoryDetailsScreen extends StatelessWidget {
                 physics: const BouncingScrollPhysics(),
                 child: Row(
                   children: List.generate(
-                    6,
-                    (index) => 'Women Clothing'
+                    productController.subCategory.length,
+                    (index) => '${productController.subCategory[index]}'
                         .text
                         .size(12)
                         .fontFamily(semibold)
