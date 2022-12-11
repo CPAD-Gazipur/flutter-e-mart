@@ -4,8 +4,9 @@ import 'package:flutter_e_mart/consts/consts.dart';
 import 'package:flutter_e_mart/controllers/controllers.dart';
 import 'package:flutter_e_mart/services/firestore_services.dart';
 import 'package:flutter_e_mart/views/views.dart';
-import 'package:flutter_e_mart/widgets/background_widget.dart';
 import 'package:get/get.dart';
+
+import '../../widgets/widgets.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -24,11 +25,7 @@ class AccountScreen extends StatelessWidget {
               AsyncSnapshot<QuerySnapshot> snapshot,
             ) {
               if (!snapshot.hasData) {
-                return const Center(
-                  child: CircularProgressIndicator.adaptive(
-                    valueColor: AlwaysStoppedAnimation(redColor),
-                  ),
-                );
+                return loadingIndicator();
               } else {
                 var data = snapshot.data!.docs[0];
 
@@ -84,11 +81,7 @@ class AccountScreen extends StatelessWidget {
                                 ),
                               ),
                             ).box.roundedFull.clip(Clip.antiAlias).make(),
-                            placeholder: (context, url) => const Center(
-                              child: CircularProgressIndicator.adaptive(
-                                valueColor: AlwaysStoppedAnimation(redColor),
-                              ),
-                            ),
+                            placeholder: (context, url) => loadingIndicator(),
                             errorWidget: (context, url, error) =>
                                 Image.network(profileImageURL)
                                     .box
