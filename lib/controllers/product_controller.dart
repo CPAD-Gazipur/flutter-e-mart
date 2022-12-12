@@ -5,6 +5,8 @@ import 'package:flutter_e_mart/models/category_model.dart';
 import 'package:get/get.dart';
 
 class ProductController extends GetxController {
+  var currentImageIndex = 0.obs;
+
   var subCategory = [];
 
   getSubCategories({required String title}) async {

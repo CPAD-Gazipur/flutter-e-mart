@@ -1,25 +1,43 @@
-import 'package:flutter_e_mart/widgets/custom_button_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_e_mart/controllers/controllers.dart';
+import 'package:flutter_e_mart/widgets/widgets.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
+import 'package:get/get.dart';
 
 import '../../consts/consts.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  final String title;
-  final String image;
+  final dynamic productDetails;
 
   const ProductDetailsScreen({
     Key? key,
-    required this.title,
-    required this.image,
+    required this.productDetails,
   }) : super(key: key);
+
+  List<T> map<T>(List list, Function handler) {
+    List<T> result = [];
+    for (var i = 0; i < list.length; i++) {
+      result.add(handler(i, list[i]));
+    }
+
+    return result;
+  }
 
   @override
   Widget build(BuildContext context) {
+    PageController pageController = PageController(
+      viewportFraction: 1,
+      initialPage: 0,
+    );
+
+    var productController = Get.find<ProductController>();
+
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: AppBar(
         elevation: 0,
-        title: title.text
+        title: '${productDetails['p_name']}'
+            .text
             .maxLines(1)
             .fontFamily(bold)
             .ellipsis
@@ -44,40 +62,127 @@ class ProductDetailsScreen extends StatelessWidget {
         children: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.only(
+                left: 8,
+                right: 8,
+              ),
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     /// PRODUCT IMAGE SLIDER
-                    VxSwiper.builder(
-                      itemCount: 3,
-                      autoPlay: true,
-                      height: 260,
-                      aspectRatio: 16 / 8,
-                      itemBuilder: (context, index) {
-                        return Image.asset(
-                          image,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        );
-                      },
+                    SizedBox(
+                      height: 240,
+                      child: PageView.builder(
+                        itemCount: productDetails['p_images'].length,
+                        controller: pageController,
+                        onPageChanged: (value) {
+                          productController.currentImageIndex.value = value;
+                        },
+                        itemBuilder: (context, index) {
+                          return CachedNetworkImage(
+                            imageUrl: productDetails['p_images'][index],
+                            imageBuilder: (context, imageProvider) => Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                ),
+                              ),
+                            )
+                                .box
+                                .roundedSM
+                                .clip(Clip.antiAlias)
+                                .margin(
+                                  const EdgeInsets.all(2.0),
+                                )
+                                .padding(const EdgeInsets.all(4.0))
+                                .make(),
+                            placeholder: (context, url) => loadingIndicator(),
+                            errorWidget: (context, url, error) => Image.network(
+                              imgP3,
+                            )
+                                .box
+                                .margin(
+                                  const EdgeInsets.symmetric(
+                                    horizontal: 4.0,
+                                  ),
+                                )
+                                .roundedSM
+                                .clip(Clip.antiAlias)
+                                .make(),
+                          )
+                              .box
+                              .roundedSM
+                              .padding(const EdgeInsets.all(10))
+                              .clip(Clip.antiAlias)
+                              .make()
+                              .onTap(
+                            () {
+                              debugPrint('VIEW FULL IMAGE');
+                            },
+                          );
+                        },
+                      ),
                     ),
+                    Obx(
+                      () => Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: map(
+                          productDetails['p_images'],
+                          (index, url) {
+                            return Container(
+                              width: 10,
+                              height: 10,
+                              margin: const EdgeInsets.symmetric(
+                                vertical: 10.0,
+                                horizontal: 2.0,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black54),
+                                shape: BoxShape.circle,
+                                color:
+                                    productController.currentImageIndex.value ==
+                                            index
+                                        ? Colors.black54
+                                        : const Color.fromRGBO(
+                                            255,
+                                            255,
+                                            255,
+                                            0.4,
+                                          ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+
                     10.heightBox,
 
                     /// PRODUCT DETAILS
-                    title.text
+                    '${productDetails['p_name']}'
+                        .text
                         .size(18)
                         .color(darkFontGrey)
                         .fontFamily(semibold)
                         .make(),
                     5.heightBox,
+                    '${productDetails['p_brand']}'
+                        .text
+                        .fontFamily(regular)
+                        .color(fontGrey)
+                        .size(14)
+                        .maxLines(1)
+                        .ellipsis
+                        .make(),
+                    5.heightBox,
                     Row(
                       children: [
-                        const FlutterRating(
+                        FlutterRating(
                           size: 20,
-                          rating: 3.5,
+                          rating: double.parse(productDetails['p_rating']),
                           borderColor: Colors.amber,
                           color: golden,
                           allowHalfRating: true,
@@ -88,14 +193,14 @@ class ProductDetailsScreen extends StatelessWidget {
                         Expanded(
                           child: Row(
                             children: [
-                              '-  3.5 Rating'
+                              '-  ${double.parse(productDetails['p_rating'])} Rating'
                                   .text
                                   .size(14)
                                   .ellipsis
                                   .fontFamily(semibold)
                                   .make(),
                               5.widthBox,
-                              '(10 reviews)'
+                              '(${productDetails['p_review']} reviews)'
                                   .text
                                   .size(12)
                                   .ellipsis
@@ -109,14 +214,20 @@ class ProductDetailsScreen extends StatelessWidget {
                     10.heightBox,
                     Row(
                       children: [
-                        '\$1200'
+                        '\$${productDetails['p_sellPrice'].toString().replaceAllMapped(
+                                  RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                  (Match m) => '${m[1]},',
+                                )}'
                             .text
                             .fontFamily(bold)
                             .color(redColor)
                             .size(16)
                             .make(),
                         5.widthBox,
-                        '\$1450'
+                        '\$${productDetails['p_price'].toString().replaceAllMapped(
+                                  RegExp(r"(\d{1,3})(?=(\d{3})+(?!\d))"),
+                                  (Match m) => '${m[1]},',
+                                )}'
                             .text
                             .fontFamily(regular)
                             .color(fontGrey)
@@ -142,7 +253,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                   .size(14)
                                   .make(),
                               5.heightBox,
-                              'In House Brands'
+                              '${productDetails['p_seller']}'
                                   .text
                                   .fontFamily(regular)
                                   .size(14)
@@ -227,7 +338,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                   icon: const Icon(Icons.add),
                                 ),
                                 10.widthBox,
-                                '(0 available)'
+                                '(${productDetails['p_quantity']} available)'
                                     .text
                                     .color(textFieldGrey)
                                     .make(),
@@ -270,7 +381,8 @@ class ProductDetailsScreen extends StatelessWidget {
                         .fontFamily(semibold)
                         .make(),
                     10.heightBox,
-                    productDescription.text
+                    '${productDetails['p_description']}'
+                        .text
                         .color(darkFontGrey)
                         .justify
                         .make()
@@ -365,6 +477,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    10.heightBox,
                   ],
                 ),
               ),

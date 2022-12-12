@@ -1,37 +1,67 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_e_mart/consts/consts.dart';
+import 'package:flutter_e_mart/controllers/controllers.dart';
 import 'package:flutter_e_mart/views/views.dart';
+import 'package:flutter_e_mart/widgets/widgets.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
 import 'package:get/get.dart';
 
 class ProductShortDetails extends StatelessWidget {
-  const ProductShortDetails({Key? key}) : super(key: key);
+  final dynamic productDetails;
+  const ProductShortDetails({Key? key, required this.productDetails})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var productController = Get.find<ProductController>();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Stack(
           children: [
-            Image.asset(
-              imgP3,
-              //fit: BoxFit.fill,
+            SizedBox(
               width: 200,
-              // height: 200,
-            )
-                .box
-                .margin(
-                  const EdgeInsets.symmetric(
-                    horizontal: 4.0,
+              height: 160,
+              child: CachedNetworkImage(
+                imageUrl: productDetails['p_images'][0],
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    image: DecorationImage(
+                      image: imageProvider,
+                    ),
                   ),
                 )
-                .make(),
+                    .box
+                    .roundedSM
+                    .clip(Clip.antiAlias)
+                    .margin(
+                      const EdgeInsets.all(2.0),
+                    )
+                    .padding(const EdgeInsets.all(4.0))
+                    .make(),
+                placeholder: (context, url) => loadingIndicator(),
+                errorWidget: (context, url, error) => Image.network(
+                  imgP3,
+                )
+                    .box
+                    .margin(
+                      const EdgeInsets.symmetric(
+                        horizontal: 4.0,
+                      ),
+                    )
+                    .roundedSM
+                    .clip(Clip.antiAlias)
+                    .make(),
+              ).box.roundedSM.clip(Clip.antiAlias).make(),
+            ),
             Align(
               alignment: Alignment.topRight,
               child: Stack(
                 children: [
-                  '${100 - (1200 * 100) ~/ 1450}%'
+                  '${100 - (double.parse(productDetails['p_sellPrice'].toString()) * 100) ~/ double.parse(productDetails['p_price'].toString())}%'
                       .text
                       .size(12)
                       .fontFamily(bold)
@@ -56,7 +86,7 @@ class ProductShortDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            'Macbook Pro M1 Chip'
+            '${productDetails['p_name']}'
                 .text
                 .fontFamily(semibold)
                 .maxLines(2)
@@ -64,7 +94,7 @@ class ProductShortDetails extends StatelessWidget {
                 .color(darkFontGrey)
                 .make(),
             5.heightBox,
-            'Apple'
+            '${productDetails['p_brand']}'
                 .text
                 .fontFamily(regular)
                 .color(fontGrey)
@@ -75,9 +105,20 @@ class ProductShortDetails extends StatelessWidget {
             10.heightBox,
             Row(
               children: [
-                '\$1200'.text.fontFamily(bold).color(redColor).size(14).make(),
+                '\$${productDetails['p_sellPrice'].toString().replaceAllMapped(
+                          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                          (Match m) => '${m[1]},',
+                        )}'
+                    .text
+                    .fontFamily(bold)
+                    .color(redColor)
+                    .size(14)
+                    .make(),
                 5.widthBox,
-                '\$1450'
+                '\$${productDetails['p_price'].toString().replaceAllMapped(
+                          RegExp(r"(\d{1,3})(?=(\d{3})+(?!\d))"),
+                          (Match m) => '${m[1]},',
+                        )}'
                     .text
                     .fontFamily(regular)
                     .color(fontGrey)
@@ -89,8 +130,8 @@ class ProductShortDetails extends StatelessWidget {
             5.heightBox,
             Row(
               children: [
-                const FlutterRating(
-                  rating: 3.7,
+                FlutterRating(
+                  rating: double.parse(productDetails['p_rating']),
                   starCount: 5,
                   size: 14,
                   borderColor: Colors.amber,
@@ -99,7 +140,11 @@ class ProductShortDetails extends StatelessWidget {
                 ),
                 5.widthBox,
                 Expanded(
-                  child: '(10)'.text.size(10).ellipsis.make(),
+                  child: '(${productDetails['p_review']})'
+                      .text
+                      .size(10)
+                      .ellipsis
+                      .make(),
                 ),
               ],
             ),
@@ -121,12 +166,15 @@ class ProductShortDetails extends StatelessWidget {
             .make(),
       ],
     ).box.white.roundedSM.outerShadowSm.clip(Clip.antiAlias).make().onTap(
-          () => Get.to(
-            () => const ProductDetailsScreen(
-              title: 'Macbook Pro M1 Chip',
-              image: imgP3,
-            ),
+      () {
+        productController.currentImageIndex.value = 0;
+
+        Get.to(
+          () => ProductDetailsScreen(
+            productDetails: productDetails,
           ),
         );
+      },
+    );
   }
 }

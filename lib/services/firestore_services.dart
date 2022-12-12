@@ -13,7 +13,7 @@ class FirestoreServices {
   static getProducts({required String category}) {
     return firebaseFirestore
         .collection(productCollection)
-        .where('p_category', isNotEqualTo: category)
+        .where('p_category', isEqualTo: category)
         .snapshots();
   }
 }

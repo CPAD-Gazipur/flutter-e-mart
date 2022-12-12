@@ -287,7 +287,9 @@ class HomeScreen extends StatelessWidget {
                               mainAxisExtent: 282,
                             ),
                             itemBuilder: (context, index) {
-                              return const ProductShortDetails();
+                              return const ProductShortDetails(
+                                productDetails: '',
+                              );
                             },
                           ),
                         ],

@@ -37,60 +37,65 @@ class CategoryDetailsScreen extends StatelessWidget {
               return Center(
                 child: 'No Product Found'.text.color(darkFontGrey).make(),
               );
-            }
-            return Container(
-              padding: const EdgeInsets.only(
-                left: 12,
-                right: 12,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  /// SUB CATEGORY LIST
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
-                    child: Row(
-                      children: List.generate(
-                        productController.subCategory.length,
-                        (index) => '${productController.subCategory[index]}'
-                            .text
-                            .size(12)
-                            .fontFamily(semibold)
-                            .color(darkFontGrey)
-                            .makeCentered()
-                            .box
-                            .white
-                            .roundedSM
-                            .size(130, 50)
-                            .margin(const EdgeInsets.symmetric(horizontal: 4))
-                            .make(),
-                      ),
-                    ),
-                  ),
-                  10.heightBox,
+            } else {
+              var data = snapshot.data!.docs;
 
-                  /// CATEGORY PRODUCT LIST
-                  Expanded(
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      itemCount: 6,
+              return Container(
+                padding: const EdgeInsets.only(
+                  left: 12,
+                  right: 12,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    /// SUB CATEGORY LIST
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 8,
-                        crossAxisSpacing: 8,
-                        mainAxisExtent: 282,
+                      child: Row(
+                        children: List.generate(
+                          productController.subCategory.length,
+                          (index) => '${productController.subCategory[index]}'
+                              .text
+                              .size(12)
+                              .fontFamily(semibold)
+                              .color(darkFontGrey)
+                              .makeCentered()
+                              .box
+                              .white
+                              .roundedSM
+                              .size(130, 50)
+                              .margin(const EdgeInsets.symmetric(horizontal: 4))
+                              .make(),
+                        ),
                       ),
-                      itemBuilder: (context, index) {
-                        return const ProductShortDetails();
-                      },
                     ),
-                  ),
-                ],
-              ),
-            );
+                    10.heightBox,
+
+                    /// CATEGORY PRODUCT LIST
+                    Expanded(
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: data.length,
+                        physics: const BouncingScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 8,
+                          crossAxisSpacing: 8,
+                          mainAxisExtent: 282,
+                        ),
+                        itemBuilder: (context, index) {
+                          return ProductShortDetails(
+                            productDetails: data[index],
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
           },
         ),
       ),
