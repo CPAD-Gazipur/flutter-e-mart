@@ -1,14 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_e_mart/consts/consts.dart';
+import 'package:flutter_e_mart/controllers/controllers.dart';
+import 'package:flutter_e_mart/services/firestore_services.dart';
 import 'package:flutter_e_mart/views/home_screen/components/featured_button.dart';
 import 'package:flutter_e_mart/views/views.dart';
-import 'package:flutter_e_mart/widgets/custom_home_button.dart';
 import 'package:flutter_e_mart/widgets/widgets.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Get.put(ProductController());
     return Container(
       padding: const EdgeInsets.only(top: 12),
       color: lightGrey,
@@ -275,21 +279,37 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                           10.heightBox,
-                          GridView.builder(
-                            shrinkWrap: true,
-                            itemCount: 6,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 8,
-                              crossAxisSpacing: 8,
-                              mainAxisExtent: 282,
-                            ),
-                            itemBuilder: (context, index) {
-                              return const ProductShortDetails(
-                                productDetails: '',
-                              );
+                          StreamBuilder<QuerySnapshot>(
+                            stream: FirestoreServices.getAllProducts(),
+                            builder: (
+                              BuildContext context,
+                              AsyncSnapshot<QuerySnapshot> snapshot,
+                            ) {
+                              if (!snapshot.hasData) {
+                                return loadingIndicator();
+                              } else if (snapshot.data!.docs.isEmpty) {
+                                return 'No Data Found'.text.make();
+                              } else {
+                                var data = snapshot.data!.docs;
+
+                                return GridView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: data.length,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: 8,
+                                    crossAxisSpacing: 8,
+                                    mainAxisExtent: 282,
+                                  ),
+                                  itemBuilder: (context, index) {
+                                    return ProductShortDetails(
+                                      productDetails: data[index],
+                                    );
+                                  },
+                                );
+                              }
                             },
                           ),
                         ],

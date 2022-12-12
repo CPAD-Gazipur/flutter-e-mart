@@ -26,7 +26,7 @@ class CategoryDetailsScreen extends StatelessWidget {
           ),
         ),
         body: StreamBuilder<QuerySnapshot>(
-          stream: FirestoreServices.getProducts(category: title),
+          stream: FirestoreServices.getCategoryProducts(category: title),
           builder: (
             BuildContext context,
             AsyncSnapshot<QuerySnapshot> snapshot,
