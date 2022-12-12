@@ -105,26 +105,40 @@ class ProductShortDetails extends StatelessWidget {
             10.heightBox,
             Row(
               children: [
-                '\$${productDetails['p_sellPrice'].toString().replaceAllMapped(
-                          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                          (Match m) => '${m[1]},',
-                        )}'
-                    .text
-                    .fontFamily(bold)
-                    .color(redColor)
-                    .size(14)
-                    .make(),
-                5.widthBox,
-                '\$${productDetails['p_price'].toString().replaceAllMapped(
-                          RegExp(r"(\d{1,3})(?=(\d{3})+(?!\d))"),
-                          (Match m) => '${m[1]},',
-                        )}'
-                    .text
-                    .fontFamily(regular)
-                    .color(fontGrey)
-                    .size(12)
-                    .lineThrough
-                    .make(),
+                Row(
+                  children: [
+                    '\$'.text.fontFamily(bold).color(redColor).size(14).make(),
+                    productDetails['p_sellPrice']
+                        .toString()
+                        .numCurrency
+                        .text
+                        .fontFamily(bold)
+                        .color(redColor)
+                        .size(14)
+                        .make(),
+                  ],
+                ),
+                8.widthBox,
+                Row(
+                  children: [
+                    '\$'
+                        .text
+                        .fontFamily(regular)
+                        .color(fontGrey)
+                        .size(12)
+                        .lineThrough
+                        .make(),
+                    productDetails['p_price']
+                        .toString()
+                        .numCurrency
+                        .text
+                        .fontFamily(regular)
+                        .color(fontGrey)
+                        .size(12)
+                        .lineThrough
+                        .make(),
+                  ],
+                )
               ],
             ),
             5.heightBox,
@@ -168,7 +182,6 @@ class ProductShortDetails extends StatelessWidget {
     ).box.white.roundedSM.outerShadowSm.clip(Clip.antiAlias).make().onTap(
       () {
         productController.currentImageIndex.value = 0;
-
         Get.to(
           () => ProductDetailsScreen(
             productDetails: productDetails,
