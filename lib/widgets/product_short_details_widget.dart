@@ -182,6 +182,13 @@ class ProductShortDetails extends StatelessWidget {
     ).box.white.roundedSM.outerShadowSm.clip(Clip.antiAlias).make().onTap(
       () {
         productController.currentImageIndex.value = 0;
+        productController.selectedColorIndex.value = 0;
+        productController.selectedQuantity.value = 1;
+        productController.calculateTotalPrice(
+          price: double.parse(
+            productDetails['p_sellPrice'].toString(),
+          ),
+        );
         Get.to(
           () => ProductDetailsScreen(
             productDetails: productDetails,

@@ -18,6 +18,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('${const Color(0xFF234766).value}');
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: appName,

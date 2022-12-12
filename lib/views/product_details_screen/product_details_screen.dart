@@ -284,94 +284,181 @@ class ProductDetailsScreen extends StatelessWidget {
                     20.heightBox,
 
                     /// Product Variation
-                    Column(
-                      children: [
-                        /// Color Choose
-                        10.heightBox,
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 100,
-                              child: 'Color:'.text.color(textFieldGrey).make(),
-                            ),
-                            Row(
-                              children: List.generate(
-                                3,
-                                (index) => VxBox()
-                                    .size(40, 40)
-                                    .roundedFull
-                                    .color(Vx.randomPrimaryColor)
-                                    .margin(
-                                      const EdgeInsets.symmetric(
-                                        horizontal: 4,
-                                      ),
-                                    )
-                                    .make(),
+                    Obx(
+                      () => Column(
+                        children: [
+                          /// Color Choose
+                          10.heightBox,
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                child:
+                                    'Color:'.text.color(textFieldGrey).make(),
                               ),
-                            )
-                          ],
-                        ).box.padding(const EdgeInsets.all(8)).make(),
-                        10.heightBox,
+                              Row(
+                                children: List.generate(
+                                  productDetails['p_colors'].length,
+                                  (index) => Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      VxBox()
+                                          .size(40, 40)
+                                          .roundedFull
+                                          .color(
+                                            Color(
+                                              int.parse(
+                                                productDetails['p_colors']
+                                                    [index],
+                                              ),
+                                            ),
+                                          )
+                                          .margin(
+                                            const EdgeInsets.symmetric(
+                                              horizontal: 4,
+                                            ),
+                                          )
+                                          .make()
+                                          .onTap(() {
+                                        productController
+                                            .changeColorIndex(index);
+                                      }),
+                                      Visibility(
+                                        visible: index ==
+                                            productController
+                                                .selectedColorIndex.value,
+                                        child: const Icon(
+                                          Icons.done,
+                                          color: whiteColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+                              .box
+                              .padding(const EdgeInsets.all(8))
+                              .margin(
+                                const EdgeInsets.only(
+                                  left: 10,
+                                ),
+                              )
+                              .make(),
+                          10.heightBox,
 
-                        /// Quantity
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 100,
-                              child:
-                                  'Quantity:'.text.color(textFieldGrey).make(),
-                            ),
-                            Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.remove),
-                                ),
-                                '0'
-                                    .text
-                                    .size(16)
-                                    .color(darkFontGrey)
-                                    .fontFamily(bold)
-                                    .make(),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.add),
-                                ),
-                                10.widthBox,
-                                '(${productDetails['p_quantity']} available)'
+                          /// Quantity
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                child: 'Quantity:'
                                     .text
                                     .color(textFieldGrey)
                                     .make(),
-                              ],
-                            )
-                          ],
-                        ).box.padding(const EdgeInsets.all(8)).make(),
-                        10.heightBox,
+                              ),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      productController.decreaseQuantity();
+                                      productController.calculateTotalPrice(
+                                        price: double.parse(
+                                          productDetails['p_sellPrice']
+                                              .toString(),
+                                        ),
+                                      );
+                                    },
+                                    icon: const Icon(Icons.remove),
+                                  ),
+                                  '${productController.selectedQuantity.value}'
+                                      .text
+                                      .size(16)
+                                      .color(darkFontGrey)
+                                      .fontFamily(bold)
+                                      .make(),
+                                  IconButton(
+                                    onPressed: () {
+                                      productController.increaseQuantity(
+                                        totalQuantity: int.parse(
+                                          productDetails['p_quantity'],
+                                        ),
+                                      );
+                                      productController.calculateTotalPrice(
+                                        price: double.parse(
+                                          productDetails['p_sellPrice']
+                                              .toString(),
+                                        ),
+                                      );
+                                    },
+                                    icon: const Icon(Icons.add),
+                                  ),
+                                  10.widthBox,
+                                  '(${productDetails['p_quantity']} available)'
+                                      .text
+                                      .color(textFieldGrey)
+                                      .make(),
+                                ],
+                              )
+                            ],
+                          )
+                              .box
+                              .padding(const EdgeInsets.all(8))
+                              .margin(
+                                const EdgeInsets.only(
+                                  left: 10,
+                                ),
+                              )
+                              .make(),
+                          10.heightBox,
 
-                        /// Total Price
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 100,
-                              child: 'Total:'.text.color(textFieldGrey).make(),
-                            ),
-                            '\$1200.00'
-                                .text
-                                .size(16)
-                                .color(redColor)
-                                .fontFamily(bold)
-                                .make(),
-                          ],
-                        ).box.padding(const EdgeInsets.all(8)).make(),
-                        10.heightBox,
-                      ],
-                    )
-                        .box
-                        .white
-                        .roundedSM
-                        .outerShadow
-                        .margin(const EdgeInsets.symmetric(horizontal: 2))
-                        .make(),
+                          /// Total Price
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                child:
+                                    'Total:'.text.color(textFieldGrey).make(),
+                              ),
+                              Row(
+                                children: [
+                                  '\$'
+                                      .text
+                                      .size(16)
+                                      .color(redColor)
+                                      .fontFamily(bold)
+                                      .make(),
+                                  '${productController.totalPrice.value}'
+                                      .numCurrency
+                                      .text
+                                      .size(16)
+                                      .color(redColor)
+                                      .fontFamily(bold)
+                                      .make(),
+                                ],
+                              ),
+                            ],
+                          )
+                              .box
+                              .padding(const EdgeInsets.all(8))
+                              .margin(
+                                const EdgeInsets.only(
+                                  left: 10,
+                                ),
+                              )
+                              .make(),
+                          10.heightBox,
+                        ],
+                      )
+                          .box
+                          .white
+                          .roundedSM
+                          .outerShadow
+                          .margin(const EdgeInsets.symmetric(horizontal: 2))
+                          .make(),
+                    ),
+
                     20.heightBox,
 
                     /// Product Description
