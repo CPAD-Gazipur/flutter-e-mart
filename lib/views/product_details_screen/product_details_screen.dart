@@ -3,6 +3,7 @@ import 'package:flutter_e_mart/controllers/controllers.dart';
 import 'package:flutter_e_mart/widgets/widgets.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../consts/consts.dart';
 
@@ -99,9 +100,24 @@ class ProductDetailsScreen extends StatelessWidget {
                                 )
                                 .padding(const EdgeInsets.all(4.0))
                                 .make(),
-                            placeholder: (context, url) => loadingIndicator(),
-                            errorWidget: (context, url, error) => Image.network(
-                              imgP3,
+                            placeholder: (context, url) => Shimmer.fromColors(
+                              baseColor: Colors.grey,
+                              highlightColor: Colors.white,
+                              child: Image.asset(
+                                'assets/images/placeholder_image.png',
+                              ),
+                            )
+                                .box
+                                .margin(
+                                  const EdgeInsets.symmetric(
+                                    horizontal: 4.0,
+                                  ),
+                                )
+                                .roundedSM
+                                .clip(Clip.antiAlias)
+                                .make(),
+                            errorWidget: (context, url, error) => Image.asset(
+                              'assets/images/placeholder_image.png',
                             )
                                 .box
                                 .margin(
