@@ -45,7 +45,9 @@ class ProductShortDetails extends StatelessWidget {
                 placeholder: (context, url) => Shimmer.fromColors(
                   baseColor: Colors.grey,
                   highlightColor: Colors.white,
-                  child: Image.asset('assets/images/placeholder_image.png'),
+                  child: Image.asset(
+                    'assets/images/placeholder_image.png',
+                  ),
                 )
                     .box
                     .margin(
@@ -56,17 +58,18 @@ class ProductShortDetails extends StatelessWidget {
                     .roundedSM
                     .clip(Clip.antiAlias)
                     .make(),
-                errorWidget: (context, url, error) =>
-                    Image.asset('assets/images/placeholder_image.png')
-                        .box
-                        .margin(
-                          const EdgeInsets.symmetric(
-                            horizontal: 4.0,
-                          ),
-                        )
-                        .roundedSM
-                        .clip(Clip.antiAlias)
-                        .make(),
+                errorWidget: (context, url, error) => Image.asset(
+                  'assets/images/placeholder_image.png',
+                )
+                    .box
+                    .margin(
+                      const EdgeInsets.symmetric(
+                        horizontal: 4.0,
+                      ),
+                    )
+                    .roundedSM
+                    .clip(Clip.antiAlias)
+                    .make(),
               ).box.roundedSM.clip(Clip.antiAlias).make(),
             ),
             Align(
