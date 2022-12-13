@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_e_mart/consts/consts.dart';
 import 'package:flutter_e_mart/controllers/controllers.dart';
 import 'package:flutter_e_mart/views/account_screen/account_screen.dart';
@@ -71,24 +74,66 @@ class HomeNavBar extends StatelessWidget {
       const AccountScreen(),
     ];
 
-    return Scaffold(
-      body: Obx(
-        () => navBody[controller.currentNaIndex.value],
-      ),
-      bottomNavigationBar: Obx(
-        () => BottomNavigationBar(
-          currentIndex: controller.currentNaIndex.value,
-          selectedItemColor: redColor,
-          selectedLabelStyle: const TextStyle(
-            fontFamily: regular,
-            fontSize: 12,
+    return WillPopScope(
+      onWillPop: () async {
+        if (controller.currentNaIndex.value != 0) {
+          controller.currentNaIndex.value = 0;
+          return Future(() => false);
+        } else {
+          return (await showDialog(
+                context: context,
+                builder: (context) => Platform.isIOS
+                    ? AlertDialog(
+                        title: const Text('Warning!'),
+                        content: const Text('Want to exit from E-Mart?'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: const Text('No'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            child: const Text('Yes'),
+                          ),
+                        ],
+                      )
+                    : CupertinoAlertDialog(
+                        title: const Text('Warning!'),
+                        content: const Text('Want to exit from E-Mart?'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: const Text('No'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            child: const Text('Yes'),
+                          ),
+                        ],
+                      ),
+              )) ??
+              false;
+        }
+      },
+      child: Scaffold(
+        body: Obx(
+          () => navBody[controller.currentNaIndex.value],
+        ),
+        bottomNavigationBar: Obx(
+          () => BottomNavigationBar(
+            currentIndex: controller.currentNaIndex.value,
+            selectedItemColor: redColor,
+            selectedLabelStyle: const TextStyle(
+              fontFamily: regular,
+              fontSize: 12,
+            ),
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: whiteColor,
+            items: navItem,
+            onTap: (newValue) {
+              controller.currentNaIndex.value = newValue;
+            },
           ),
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: whiteColor,
-          items: navItem,
-          onTap: (newValue) {
-            controller.currentNaIndex.value = newValue;
-          },
         ),
       ),
     );
