@@ -16,16 +16,50 @@ class AuthController extends GetxController {
   }) async {
     UserCredential? userCredential;
 
-    try {
-      userCredential = await auth.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
+    if (emailController.text.isEmail && passwordController.text.length >= 6) {
+      try {
+        userCredential = await auth.signInWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+      } on FirebaseAuthException catch (e) {
+        VxToast.show(
+          context,
+          msg: e.toString().split(']')[1].trim(),
+          textColor: whiteColor,
+          bgColor: redColor,
+        );
+        debugPrint('Login Error: $e');
+      }
+    } else if (emailController.text.isEmpty) {
+      VxToast.show(
+        context,
+        msg: 'Email can\'t be empty',
+        textColor: whiteColor,
+        bgColor: redColor,
       );
-    } on FirebaseAuthException catch (e) {
-      VxToast.show(context, msg: e.toString());
-      debugPrint('Login Error: $e');
+    } else if (!emailController.text.isEmail) {
+      VxToast.show(
+        context,
+        msg: 'Enter an valid Email address',
+        textColor: whiteColor,
+        bgColor: redColor,
+      );
+    } else if (passwordController.text.isEmpty) {
+      VxToast.show(
+        context,
+        msg: 'Password can\'t be empty',
+        textColor: whiteColor,
+        bgColor: redColor,
+      );
+    } else if (passwordController.text.length < 6) {
+      VxToast.show(
+        context,
+        msg: 'Password must at least 6 digit',
+        textColor: whiteColor,
+        bgColor: redColor,
+      );
     }
-
     return userCredential;
   }
 

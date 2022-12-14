@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter_e_mart/consts/consts.dart';
 import 'package:flutter_e_mart/controllers/controllers.dart';
-import 'package:flutter_e_mart/views/home_screen/home_nav_bar.dart';
+import 'package:flutter_e_mart/views/auth_screen/login_screen.dart';
 import 'package:flutter_e_mart/widgets/widgets.dart';
 import 'package:get/get.dart';
 
@@ -147,43 +147,115 @@ class _SignupScreenState extends State<SignupScreen> {
                                   : lightGrey,
                               onPressed: isPolicyAndTermsChecked
                                   ? () async {
-                                      try {
-                                        authController.isLoading(true);
+                                      if (nameController.text.isEmpty) {
+                                        VxToast.show(
+                                          context,
+                                          msg: 'Name can\'t be empty',
+                                          textColor: whiteColor,
+                                          bgColor: redColor,
+                                        );
+                                      } else if (emailController.text.isEmpty) {
+                                        VxToast.show(
+                                          context,
+                                          msg: 'Email can\'t be empty',
+                                          textColor: whiteColor,
+                                          bgColor: redColor,
+                                        );
+                                      } else if (!emailController
+                                          .text.isEmail) {
+                                        VxToast.show(
+                                          context,
+                                          msg: 'Enter an valid Email address',
+                                          textColor: whiteColor,
+                                          bgColor: redColor,
+                                        );
+                                      } else if (passwordController
+                                          .text.isEmpty) {
+                                        VxToast.show(
+                                          context,
+                                          msg: 'Password can\'t be empty',
+                                          textColor: whiteColor,
+                                          bgColor: redColor,
+                                        );
+                                      } else if (passwordController
+                                              .text.length <
+                                          6) {
+                                        VxToast.show(
+                                          context,
+                                          msg: 'Password must at least 6 digit',
+                                          textColor: whiteColor,
+                                          bgColor: redColor,
+                                        );
+                                      } else if (confirmPasswordController
+                                          .text.isEmpty) {
+                                        VxToast.show(
+                                          context,
+                                          msg:
+                                              'Confirm password can\'t be empty',
+                                          textColor: whiteColor,
+                                          bgColor: redColor,
+                                        );
+                                      } else if (passwordController.text !=
+                                          confirmPasswordController.text) {
+                                        VxToast.show(
+                                          context,
+                                          msg:
+                                              'Confirm password is not matched',
+                                          textColor: whiteColor,
+                                          bgColor: redColor,
+                                        );
+                                      } else if (nameController
+                                              .text.isNotEmpty &&
+                                          emailController.text.isEmail &&
+                                          passwordController.text.length >= 6) {
+                                        try {
+                                          authController.isLoading(true);
 
-                                        await authController
-                                            .signUpWithEmailAndPassword(
-                                          context: context,
-                                          email: emailController.text,
-                                          password: passwordController.text,
-                                        )
-                                            .then((userCredentials) {
-                                          if (userCredentials != null) {
-                                            if (userCredentials
-                                                .additionalUserInfo!
-                                                .isNewUser) {
-                                              return authController
-                                                  .storeNewUserDataIntoFireStore(
-                                                uID: userCredentials.user!.uid,
-                                                name: nameController.text,
-                                                email: emailController.text,
-                                                imageUrl: userCredentials
-                                                        .user?.photoURL ??
-                                                    '',
-                                              );
+                                          await authController
+                                              .signUpWithEmailAndPassword(
+                                            context: context,
+                                            email: emailController.text,
+                                            password: passwordController.text,
+                                          )
+                                              .then((userCredentials) {
+                                            if (userCredentials != null) {
+                                              if (userCredentials
+                                                  .additionalUserInfo!
+                                                  .isNewUser) {
+                                                return authController
+                                                    .storeNewUserDataIntoFireStore(
+                                                  uID:
+                                                      userCredentials.user!.uid,
+                                                  name: nameController.text,
+                                                  email: emailController.text,
+                                                  imageUrl: userCredentials
+                                                          .user?.photoURL ??
+                                                      '',
+                                                );
+                                              }
                                             }
-                                          }
+                                            authController.isLoading(false);
+                                          }).then((value) {
+                                            VxToast.show(context,
+                                                msg: loggedIn);
+                                            Get.offAll(
+                                                () => const LoginScreen());
+                                          });
+                                        } catch (e) {
                                           authController.isLoading(false);
-                                        }).then((value) {
-                                          VxToast.show(context, msg: loggedIn);
-                                          Get.offAll(() => const HomeNavBar());
-                                        });
-                                      } catch (e) {
-                                        authController.isLoading(false);
-                                        authController.signOutUser(
-                                            context: context);
-                                        debugPrint('SIGNUP ERROR: $e');
-                                        VxToast.show(context,
-                                            msg: e.toString());
+                                          authController.signOutUser(
+                                              context: context);
+                                          debugPrint('SIGNUP ERROR: $e');
+                                          VxToast.show(context,
+                                              msg: e.toString());
+                                        }
+                                      } else {
+                                        VxToast.show(
+                                          context,
+                                          msg: 'Something went wrong',
+                                          textColor: whiteColor,
+                                          bgColor: redColor,
+                                        );
                                       }
                                     }
                                   : null,
