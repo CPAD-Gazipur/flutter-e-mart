@@ -153,7 +153,7 @@ class ProductShortDetails extends StatelessWidget {
                         .lineThrough
                         .make(),
                   ],
-                )
+                ),
               ],
             ),
             5.heightBox,

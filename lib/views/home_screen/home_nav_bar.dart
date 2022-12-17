@@ -1,12 +1,7 @@
 import 'package:flutter_e_mart/consts/consts.dart';
 import 'package:flutter_e_mart/controllers/controllers.dart';
-import 'package:flutter_e_mart/views/account_screen/account_screen.dart';
-import 'package:flutter_e_mart/views/cart_screen/cart_screen.dart';
-import 'package:flutter_e_mart/views/category_screen/category_screen.dart';
-import 'package:flutter_e_mart/views/home_screen/home_screen.dart';
+import 'package:flutter_e_mart/views/views.dart';
 import 'package:get/get.dart';
-
-import 'components/exit_button_widget.dart';
 
 class HomeNavBar extends StatelessWidget {
   const HomeNavBar({Key? key}) : super(key: key);

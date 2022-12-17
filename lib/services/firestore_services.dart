@@ -21,4 +21,12 @@ class FirestoreServices {
   static getAllProducts() {
     return firebaseFirestore.collection(productCollection).snapshots();
   }
+
+  /// GET CARTED PRODUCTS
+  static getCartedProducts({required String uID}) {
+    return firebaseFirestore
+        .collection(cartCollection)
+        .where('p_buyerID', isEqualTo: uID)
+        .snapshots();
+  }
 }

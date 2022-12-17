@@ -606,6 +606,7 @@ class ProductDetailsScreen extends StatelessWidget {
                             context: context,
                             pID: productDetails['p_ID'],
                             pTitle: productDetails['p_name'],
+                            pImage: productDetails['p_images'][0],
                             seller: productDetails['p_seller'],
                             sellerID: productDetails['p_sellerID'],
                             totalPrice: productController.totalPrice.toString(),
