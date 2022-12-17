@@ -8,3 +8,4 @@ FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 /// COLLECTIONS
 const userCollection = 'users';
 const productCollection = 'products';
+const cartCollection = 'carts';

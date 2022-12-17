@@ -591,11 +591,48 @@ class ProductDetailsScreen extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             height: 60,
-            child: CustomButtonWidget(
-              title: 'Add To Cart',
-              titleColor: whiteColor,
-              backgroundColor: redColor,
-              onPressed: () {},
+            child: Obx(
+              () => productController.isLoading.value
+                  ? loadingIndicator()
+                  : CustomButtonWidget(
+                      title: 'Add To Cart',
+                      titleColor: whiteColor,
+                      backgroundColor: redColor,
+                      onPressed: () {
+                        productController.isLoading(true);
+
+                        try {
+                          productController.addToCart(
+                            context: context,
+                            pID: productDetails['p_ID'],
+                            pTitle: productDetails['p_name'],
+                            seller: productDetails['p_seller'],
+                            sellerID: productDetails['p_sellerID'],
+                            totalPrice: productController.totalPrice.toString(),
+                            pColor: productDetails['p_colors']
+                                [productController.selectedColorIndex.value],
+                            pQuantity: productController.selectedQuantity.value
+                                .toString(),
+                            buyerID: auth.currentUser!.uid,
+                          );
+                          VxToast.show(
+                            context,
+                            msg: 'Added To Cart',
+                            textColor: whiteColor,
+                            bgColor: redColor,
+                          );
+                          productController.isLoading(false);
+                        } catch (e) {
+                          VxToast.show(
+                            context,
+                            msg: e.toString(),
+                            textColor: whiteColor,
+                            bgColor: redColor,
+                          );
+                          productController.isLoading(false);
+                        }
+                      },
+                    ),
             ),
           ),
         ],

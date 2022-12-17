@@ -47,11 +47,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     5.heightBox,
                     authController.isLoading.value
-                        ? const Center(
-                            child: CircularProgressIndicator.adaptive(
-                              valueColor: AlwaysStoppedAnimation(redColor),
-                            ),
-                          )
+                        ? loadingIndicator()
                         : CustomButtonWidget(
                             title: login,
                             titleColor: whiteColor,
