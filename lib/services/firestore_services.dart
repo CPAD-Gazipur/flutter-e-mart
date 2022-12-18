@@ -29,4 +29,9 @@ class FirestoreServices {
         .where('p_buyerID', isEqualTo: uID)
         .snapshots();
   }
+
+  /// REMOVE CART ITEM
+  static removeCartItem({required String cartID}) {
+    return firebaseFirestore.collection(cartCollection).doc(cartID).delete();
+  }
 }

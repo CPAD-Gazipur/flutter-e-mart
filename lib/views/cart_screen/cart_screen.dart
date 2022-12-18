@@ -116,11 +116,12 @@ class CartScreen extends StatelessWidget {
                                           .make(),
                                 ).box.roundedSM.clip(Clip.antiAlias).make(),
                               ),
-                              title: '${cartProductDetails['p_name']}'
-                                  .text
-                                  .fontFamily(semibold)
-                                  .size(16)
-                                  .make(),
+                              title:
+                                  '${cartProductDetails['p_name']} - (x${cartProductDetails['quantity']})'
+                                      .text
+                                      .fontFamily(semibold)
+                                      .size(14)
+                                      .make(),
                               subtitle: Row(
                                 children: [
                                   '\$'
@@ -140,7 +141,62 @@ class CartScreen extends StatelessWidget {
                                   Icons.delete,
                                   color: redColor,
                                 ),
-                                onPressed: () {},
+                                onPressed: () async {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text(
+                                        'Remove Cart Item',
+                                        style: TextStyle(color: redColor),
+                                      ),
+                                      content: RichText(
+                                        text: TextSpan(
+                                            text: 'Want to remove ',
+                                            style: const TextStyle(
+                                              color: darkFontGrey,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                            children: [
+                                              TextSpan(
+                                                text:
+                                                    '${cartProductDetails['p_name']}',
+                                                style: const TextStyle(
+                                                  color: darkFontGrey,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                              const TextSpan(
+                                                text: ' from your cart ?',
+                                                style: TextStyle(
+                                                  color: darkFontGrey,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ]),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            FirestoreServices.removeCartItem(
+                                              cartID: cartProductDetails.id,
+                                            );
+                                            Get.back();
+                                          },
+                                          child: const Text(
+                                            'Yes',
+                                            style: TextStyle(color: redColor),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Get.back();
+                                          },
+                                          child: const Text('No'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
                               ),
                             )
                                 .box
