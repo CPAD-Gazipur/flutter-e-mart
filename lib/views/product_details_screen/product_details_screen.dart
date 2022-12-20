@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_e_mart/controllers/controllers.dart';
+import 'package:flutter_e_mart/views/chat_screen/chat_screen.dart';
 import 'package:flutter_e_mart/widgets/widgets.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
 import 'package:get/get.dart';
@@ -285,7 +286,7 @@ class ProductDetailsScreen extends StatelessWidget {
                             color: darkFontGrey,
                           ),
                         ).onTap(() {
-                          debugPrint('Message Clicked');
+                          Get.to(() => const ChatScreen());
                         }),
                       ],
                     )

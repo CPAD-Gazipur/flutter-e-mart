@@ -6,13 +6,16 @@ Widget customTextFormFieldWidget({
   TextInputType keyboardType = TextInputType.text,
   bool isPassword = false,
   TextEditingController? controller,
+  bool isLabelShow = true,
 }) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      label.text.color(redColor).fontFamily(semibold).size(14).make(),
-      5.heightBox,
+      isLabelShow
+          ? label.text.color(redColor).fontFamily(semibold).size(14).make()
+          : const SizedBox(),
+      isLabelShow ? 5.heightBox : const SizedBox(),
       TextFormField(
         controller: controller,
         keyboardType: keyboardType,
@@ -34,7 +37,7 @@ Widget customTextFormFieldWidget({
           ),
         ),
       ).box.rounded.make(),
-      10.heightBox,
+      isLabelShow ? 10.heightBox : const SizedBox(),
     ],
   );
 }

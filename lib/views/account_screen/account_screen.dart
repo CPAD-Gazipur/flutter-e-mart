@@ -37,7 +37,7 @@ class AccountScreen extends StatelessWidget {
                   profileImageURL = profileImage;
                 }
 
-                debugPrint('URL: $profileImageURL');
+                debugPrint('${data['cart']}');
 
                 return Column(
                   children: [
@@ -148,16 +148,17 @@ class AccountScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             profileCardButtonWidget(
-                                context: context,
-                                total: data['cart'] != null
-                                    ? '${data['cart'].length}'
-                                    : '00',
-                                title: cart,
-                                onPressed: () {
-                                  Get.find<HomeController>()
-                                      .currentNaIndex
-                                      .value = 2;
-                                }),
+                              context: context,
+                              total: data['cart'] != null
+                                  ? '${data['cart'].length}'
+                                  : '00',
+                              title: cart,
+                              onPressed: () {
+                                Get.find<HomeController>()
+                                    .currentNaIndex
+                                    .value = 2;
+                              },
+                            ),
                             profileCardButtonWidget(
                               context: context,
                               total: data['wishlist'] != null
