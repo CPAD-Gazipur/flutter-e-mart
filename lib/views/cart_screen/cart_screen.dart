@@ -29,8 +29,9 @@ class CartScreen extends StatelessWidget {
             vertical: 8.0,
           ),
           child: StreamBuilder<QuerySnapshot>(
-            stream:
-                FirestoreServices.getCartedProducts(uID: auth.currentUser!.uid),
+            stream: FirestoreServices.getCartedProducts(
+              uID: auth.currentUser!.uid,
+            ),
             builder: (
               BuildContext context,
               AsyncSnapshot<QuerySnapshot> snapshot,

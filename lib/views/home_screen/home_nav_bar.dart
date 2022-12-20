@@ -1,5 +1,8 @@
+import 'package:badges/badges.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_e_mart/consts/consts.dart';
 import 'package:flutter_e_mart/controllers/controllers.dart';
+import 'package:flutter_e_mart/services/firestore_services.dart';
 import 'package:flutter_e_mart/views/views.dart';
 import 'package:get/get.dart';
 
@@ -36,14 +39,101 @@ class HomeNavBar extends StatelessWidget {
         label: categories,
       ),
       BottomNavigationBarItem(
-        icon: Image.asset(
-          icCart,
-          width: 18,
+        icon: StreamBuilder<QuerySnapshot>(
+          stream: FirestoreServices.getCartedProducts(
+            uID: auth.currentUser!.uid,
+          ),
+          builder: (
+            BuildContext context,
+            AsyncSnapshot<QuerySnapshot> snapshot,
+          ) {
+            if (!snapshot.hasData) {
+              return Image.asset(
+                icCart,
+                width: 18,
+              );
+            } else if (snapshot.data!.docs.isEmpty) {
+              return Image.asset(
+                icCart,
+                width: 18,
+              );
+            } else {
+              var data = snapshot.data!.docs;
+
+              if (data.isNotEmpty) {
+                return Badge(
+                  badgeContent: Text(
+                    '${data.length}',
+                    style: const TextStyle(
+                      color: whiteColor,
+                      fontSize: 10,
+                    ),
+                  ),
+                  badgeColor: redColor,
+                  animationType: BadgeAnimationType.scale,
+                  child: Image.asset(
+                    icCart,
+                    width: 18,
+                  ),
+                );
+              } else {
+                return Image.asset(
+                  icCart,
+                  width: 18,
+                );
+              }
+            }
+          },
         ),
-        activeIcon: Image.asset(
-          icCart,
-          width: 18,
-          color: redColor,
+        activeIcon: StreamBuilder<QuerySnapshot>(
+          stream: FirestoreServices.getCartedProducts(
+            uID: auth.currentUser!.uid,
+          ),
+          builder: (
+            BuildContext context,
+            AsyncSnapshot<QuerySnapshot> snapshot,
+          ) {
+            if (!snapshot.hasData) {
+              return Image.asset(
+                icCart,
+                width: 18,
+                color: redColor,
+              );
+            } else if (snapshot.data!.docs.isEmpty) {
+              return Image.asset(
+                icCart,
+                width: 18,
+                color: redColor,
+              );
+            } else {
+              var data = snapshot.data!.docs;
+
+              if (data.isNotEmpty) {
+                return Badge(
+                  badgeContent: Text(
+                    '${data.length}',
+                    style: const TextStyle(
+                      color: whiteColor,
+                      fontSize: 10,
+                    ),
+                  ),
+                  badgeColor: redColor,
+                  animationType: BadgeAnimationType.scale,
+                  child: Image.asset(
+                    icCart,
+                    width: 18,
+                    color: redColor,
+                  ),
+                );
+              } else {
+                return Image.asset(
+                  icCart,
+                  width: 18,
+                  color: redColor,
+                );
+              }
+            }
+          },
         ),
         label: cart,
       ),
