@@ -52,12 +52,15 @@ class ChatScreen extends StatelessWidget {
                               physics: const BouncingScrollPhysics(),
                               itemCount: messageData.length,
                               itemBuilder: (context, index) {
-                                return messageSendBubbleWidget(
-                                  message: messageData[index]['message'],
-                                  messageTime: messageData[index]
-                                          ['sending_time']
-                                      .toDate(),
-                                );
+                                return messageData[index].get('sending_time') !=
+                                        null
+                                    ? messageSendBubbleWidget(
+                                        message:
+                                            messageData[index].get('message'),
+                                        messageTime: messageData[index]
+                                            .get('sending_time'),
+                                      )
+                                    : const SizedBox();
                               },
                             );
                           }

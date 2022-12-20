@@ -1,10 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../consts/consts.dart';
 
 Widget messageSendBubbleWidget({
   required String message,
-  required DateTime messageTime,
+  required Timestamp messageTime,
 }) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.end,
@@ -13,7 +14,7 @@ Widget messageSendBubbleWidget({
       Container(
         margin: const EdgeInsets.only(
           left: 40.0,
-          top: 8.0,
+          top: 6.0,
           bottom: 2.0,
           right: 8.0,
         ),
@@ -41,8 +42,11 @@ Widget messageSendBubbleWidget({
         margin: const EdgeInsets.only(
           right: 10,
         ),
+        padding: const EdgeInsets.only(
+          bottom: 4,
+        ),
         child: Text(
-          timeago.format(messageTime),
+          timeago.format(messageTime.toDate()),
           style: TextStyle(
             fontSize: 10,
             fontWeight: FontWeight.w400,
