@@ -49,6 +49,8 @@ dependencies:
   cached_network_image: ^3.2.3
   shimmer: ^2.0.0
   badges: ^2.0.3
+  intl: ^0.17.0
+  timeago: ^3.3.0
 
 dev_dependencies:
   flutter_test:

@@ -7,6 +7,7 @@ export 'cart_screen/cart_screen.dart';
 export 'category_screen/category_details_screen.dart';
 export 'category_screen/category_screen.dart';
 export 'chat_screen/chat_screen.dart';
+export 'chat_screen/components/message_send_bubble_widget.dart';
 export 'chat_screen/messaging_screen.dart';
 export 'home_screen/components/exit_button_widget.dart';
 export 'home_screen/components/featured_button.dart';

@@ -34,4 +34,14 @@ class FirestoreServices {
   static removeCartItem({required String cartID}) {
     return firebaseFirestore.collection(cartCollection).doc(cartID).delete();
   }
+
+  /// GET ALL MESSAGES
+  static getAllMessages({required String chatID}) {
+    return firebaseFirestore
+        .collection(chatCollection)
+        .doc(chatID)
+        .collection(messageCollection)
+        .orderBy('sending_time', descending: false)
+        .snapshots();
+  }
 }

@@ -1,8 +1,10 @@
+import 'package:timeago/timeago.dart' as timeago;
+
 import '../../../consts/consts.dart';
 
 Widget messageSendBubbleWidget({
   required String message,
-  required String messageTime,
+  required DateTime messageTime,
 }) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.end,
@@ -40,7 +42,7 @@ Widget messageSendBubbleWidget({
           right: 10,
         ),
         child: Text(
-          messageTime,
+          timeago.format(messageTime),
           style: TextStyle(
             fontSize: 10,
             fontWeight: FontWeight.w400,

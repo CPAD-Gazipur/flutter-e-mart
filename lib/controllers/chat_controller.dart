@@ -4,6 +4,7 @@ import 'package:flutter_e_mart/controllers/controllers.dart';
 import 'package:get/get.dart';
 
 class ChatController extends GetxController {
+  var isLoading = false.obs;
   var chats = firebaseFirestore.collection(chatCollection);
 
   var sellerName = Get.arguments[0].toString();
@@ -23,6 +24,8 @@ class ChatController extends GetxController {
   }
 
   getChatID() async {
+    isLoading(true);
+
     await chats
         .where('users', isEqualTo: {
           sellerID: null,
@@ -54,6 +57,8 @@ class ChatController extends GetxController {
             }
           },
         );
+
+    isLoading(false);
   }
 
   sendMessage({required String message}) {

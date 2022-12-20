@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_e_mart/consts/consts.dart';
-import 'package:flutter_e_mart/controllers/chat_controller.dart';
-import 'package:flutter_e_mart/views/chat_screen/components/message_send_bubble_widget.dart';
+import 'package:flutter_e_mart/controllers/controllers.dart';
+import 'package:flutter_e_mart/services/firestore_services.dart';
+import 'package:flutter_e_mart/views/views.dart';
 import 'package:flutter_e_mart/widgets/widgets.dart';
 import 'package:get/get.dart';
 
@@ -25,27 +27,42 @@ class ChatScreen extends StatelessWidget {
           Expanded(
             child: Container(
               color: Colors.grey[200],
-              child: ListView(
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  messageSendBubbleWidget(
-                    message: 'Sample Messages that has been created.',
-                    messageTime: '09:00 AM',
-                  ),
-                  messageSendBubbleWidget(
-                    message: 'Hello',
-                    messageTime: '09:00 AM',
-                  ),
-                  messageSendBubbleWidget(
-                    message: 'Hello',
-                    messageTime: '09:00 AM',
-                  ),
-                  messageSendBubbleWidget(
-                    message: 'Hello',
-                    messageTime: '09:00 AM',
-                  ),
-                ],
+              child: Obx(
+                () => chatController.isLoading.value
+                    ? loadingIndicator()
+                    : StreamBuilder<QuerySnapshot>(
+                        stream: FirestoreServices.getAllMessages(
+                          chatID: chatController.chatID.toString(),
+                        ),
+                        builder: (
+                          BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot,
+                        ) {
+                          if (!snapshot.hasData) {
+                            return loadingIndicator();
+                          } else if (snapshot.data!.docs.isEmpty) {
+                            return Center(
+                              child: 'Send a message...'.text.make(),
+                            );
+                          } else {
+                            var messageData = snapshot.data!.docs;
+
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: messageData.length,
+                              itemBuilder: (context, index) {
+                                return messageSendBubbleWidget(
+                                  message: messageData[index]['message'],
+                                  messageTime: messageData[index]
+                                          ['sending_time']
+                                      .toDate(),
+                                );
+                              },
+                            );
+                          }
+                        },
+                      ),
               ),
             ),
           ),
