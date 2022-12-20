@@ -286,7 +286,13 @@ class ProductDetailsScreen extends StatelessWidget {
                             color: darkFontGrey,
                           ),
                         ).onTap(() {
-                          Get.to(() => const ChatScreen());
+                          Get.to(
+                            () => const ChatScreen(),
+                            arguments: [
+                              '${productDetails['p_seller']}',
+                              '${productDetails['p_sellerID']}',
+                            ],
+                          );
                         }),
                       ],
                     )

@@ -9,3 +9,5 @@ FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 const userCollection = 'users';
 const productCollection = 'products';
 const cartCollection = 'carts';
+const chatCollection = 'chats';
+const messageCollection = 'messages';
