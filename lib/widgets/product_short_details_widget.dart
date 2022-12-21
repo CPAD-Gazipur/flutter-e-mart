@@ -198,6 +198,8 @@ class ProductShortDetails extends StatelessWidget {
       () {
         productController.resetAllInitialization();
 
+        productController.checkFavoriteProduct(productDetails: productDetails);
+
         productController.calculateTotalPrice(
           price: double.parse(
             productDetails['p_sellPrice'].toString(),

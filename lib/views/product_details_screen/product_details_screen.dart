@@ -52,10 +52,25 @@ class ProductDetailsScreen extends StatelessWidget {
               Icons.share,
             ),
           ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.favorite_outline,
+          Obx(
+            () => IconButton(
+              onPressed: () {
+                if (productController.isFavorite.value) {
+                  productController.removeProductFromWishList(
+                    productID: productDetails.id,
+                  );
+                } else {
+                  productController.addProductToWishList(
+                    productID: productDetails.id,
+                  );
+                }
+              },
+              icon: Icon(
+                productController.isFavorite.value
+                    ? Icons.favorite
+                    : Icons.favorite_outline,
+                color: productController.isFavorite.value ? redColor : null,
+              ),
             ),
           ),
         ],

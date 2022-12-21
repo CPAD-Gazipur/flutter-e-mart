@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_e_mart/consts/consts.dart';
 import 'package:flutter_e_mart/models/category_model.dart';
@@ -13,6 +14,7 @@ class ProductController extends GetxController {
   var totalPrice = 0.0.obs;
 
   var isLoading = false.obs;
+  var isFavorite = false.obs;
 
   var subCategory = [];
 
@@ -88,5 +90,27 @@ class ProductController extends GetxController {
         bgColor: redColor,
       );
     });
+  }
+
+  addProductToWishList({required String productID}) async {
+    await firebaseFirestore.collection(productCollection).doc(productID).set({
+      'p_wishlist': FieldValue.arrayUnion([auth.currentUser!.uid]),
+    }, SetOptions(merge: true));
+    isFavorite(true);
+  }
+
+  removeProductFromWishList({required String productID}) async {
+    await firebaseFirestore.collection(productCollection).doc(productID).set({
+      'p_wishlist': FieldValue.arrayRemove([auth.currentUser!.uid]),
+    }, SetOptions(merge: true));
+    isFavorite(false);
+  }
+
+  checkFavoriteProduct({required var productDetails}) async {
+    if (productDetails['p_wishlist'].contains(auth.currentUser!.uid)) {
+      isFavorite(true);
+    } else {
+      isFavorite(false);
+    }
   }
 }
