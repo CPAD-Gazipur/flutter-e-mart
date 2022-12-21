@@ -16,8 +16,10 @@ class ChatScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: AppBar(
-        title:
-            'Chat Screen'.text.fontFamily(semibold).color(darkFontGrey).make(),
+        title: chatController.sellerName.text
+            .fontFamily(semibold)
+            .color(darkFontGrey)
+            .make(),
         backgroundColor: whiteColor,
         centerTitle: false,
         elevation: 2,
@@ -49,18 +51,19 @@ class ChatScreen extends StatelessWidget {
 
                             return ListView.builder(
                               shrinkWrap: true,
+                              reverse: true,
                               physics: const BouncingScrollPhysics(),
                               itemCount: messageData.length,
                               itemBuilder: (context, index) {
-                                return messageData[index].get('sending_time') !=
-                                        null
-                                    ? messageSendBubbleWidget(
-                                        message:
-                                            messageData[index].get('message'),
-                                        messageTime: messageData[index]
-                                            .get('sending_time'),
-                                      )
-                                    : const SizedBox();
+                                return messageSendBubbleWidget(
+                                  isSeller: messageData[index].get('uID') ==
+                                          auth.currentUser!.uid
+                                      ? false
+                                      : true,
+                                  message: messageData[index].get('message'),
+                                  messageTime:
+                                      messageData[index].get('sending_time'),
+                                );
                               },
                             );
                           }
