@@ -11,3 +11,4 @@ const productCollection = 'products';
 const cartCollection = 'carts';
 const chatCollection = 'chats';
 const messageCollection = 'messages';
+const orderCollection = 'orders';
