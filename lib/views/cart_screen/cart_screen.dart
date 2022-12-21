@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_e_mart/consts/consts.dart';
 import 'package:flutter_e_mart/controllers/cart_controller.dart';
 import 'package:flutter_e_mart/services/firestore_services.dart';
+import 'package:flutter_e_mart/views/cart_screen/create_shipping_details_screen.dart';
 import 'package:flutter_e_mart/widgets/widgets.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -17,11 +18,9 @@ class CartScreen extends StatelessWidget {
     return backgroundWidget(
       child: Scaffold(
         //backgroundColor: whiteColor,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: 'Shopping Cart'.text.fontFamily(bold).make(),
-          elevation: 0,
-          centerTitle: false,
+        appBar: const CustomAppBarWidget(
+          title: 'Shopping Cart',
+          showBackIcon: false,
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(
@@ -269,10 +268,12 @@ class CartScreen extends StatelessWidget {
                     SizedBox(
                       width: context.screenWidth - 40,
                       child: CustomButtonWidget(
-                        title: 'Continue',
+                        title: 'Proceed to Shipping',
                         titleColor: whiteColor,
                         backgroundColor: redColor,
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.to(() => const CreateShippingDetailsScreen());
+                        },
                       ),
                     )
                   ],

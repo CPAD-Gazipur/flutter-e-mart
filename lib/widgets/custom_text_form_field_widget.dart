@@ -7,6 +7,7 @@ Widget customTextFormFieldWidget({
   bool isPassword = false,
   TextEditingController? controller,
   bool isLabelShow = true,
+  EdgeInsets? contentPadding,
 }) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
@@ -30,6 +31,7 @@ Widget customTextFormFieldWidget({
           filled: true,
           fillColor: lightGrey,
           border: InputBorder.none,
+          contentPadding: contentPadding,
           focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(
               color: redColor,
