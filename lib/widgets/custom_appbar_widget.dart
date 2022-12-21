@@ -23,6 +23,7 @@ class CustomAppBarWidget extends StatelessWidget
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: showBackIcon,
+      iconTheme: IconThemeData(color: textColor),
       title: title.text.fontFamily(fontFamily).color(textColor).make(),
       elevation: elevation,
       centerTitle: false,

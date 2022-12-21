@@ -45,3 +45,6 @@ const productDetailsItemList = [
 
 const profileSectionList = [myOrders, myWishList, myMessages];
 const profileSectionListIcon = [icOrders, icOrder, icMessages];
+
+const paymentMethodImageList = [imgPaypal, imgStripe, imgCod];
+const paymentMethodList = [paypal, stripe, cod];
