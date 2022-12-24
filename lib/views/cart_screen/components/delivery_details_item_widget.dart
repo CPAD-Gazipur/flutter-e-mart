@@ -51,7 +51,10 @@ class DeliveryDetailsItemWidget extends StatelessWidget {
                     horizontal: 12,
                   ),
                   decoration: BoxDecoration(
-                    color: redColor,
+                    color:
+                        controller.deliveryAddressSelectedIndex.value == index
+                            ? redColor
+                            : Colors.grey.shade400,
                     borderRadius: BorderRadius.circular(18),
                   ),
                   child: Center(
