@@ -7,6 +7,7 @@ FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
 /// COLLECTIONS
 const userCollection = 'users';
+const deliveryAddressCollection = 'Delivery Address';
 const productCollection = 'products';
 const cartCollection = 'carts';
 const chatCollection = 'chats';

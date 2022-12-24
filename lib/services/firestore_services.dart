@@ -35,6 +35,15 @@ class FirestoreServices {
     return firebaseFirestore.collection(cartCollection).doc(cartID).delete();
   }
 
+  /// GET SHIPPING ADDRESS
+  static getShippingAddresses() {
+    return firebaseFirestore
+        .collection(userCollection)
+        .doc(auth.currentUser!.uid)
+        .collection(deliveryAddressCollection)
+        .snapshots();
+  }
+
   /// GET ALL MESSAGES
   static getAllMessages({required String chatID}) {
     return firebaseFirestore

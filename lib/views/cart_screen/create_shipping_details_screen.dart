@@ -56,6 +56,78 @@ class CreateShippingDetailsScreen extends StatelessWidget {
                   hintText: 'Ex. Dhaka',
                   keyboardType: TextInputType.text,
                 ),
+                'Address Type'
+                    .text
+                    .color(redColor)
+                    .fontFamily(semibold)
+                    .size(14)
+                    .make(),
+                Obx(
+                  () => Column(
+                    children: [
+                      RadioListTile(
+                        value: addressType[0],
+                        groupValue:
+                            addressType[controller.addressSelectedIndex.value],
+                        onChanged: (value) {
+                          controller.addressSelectedIndex.value = 0;
+                        },
+                        activeColor: redColor,
+                        title: const Text(
+                          'Home',
+                          style: TextStyle(
+                            fontFamily: 'Roboto',
+                            color: darkFontGrey,
+                          ),
+                        ),
+                        secondary: const Icon(
+                          Icons.home,
+                          color: darkFontGrey,
+                        ),
+                      ),
+                      RadioListTile(
+                        value: addressType[1],
+                        groupValue:
+                            addressType[controller.addressSelectedIndex.value],
+                        activeColor: redColor,
+                        onChanged: (value) {
+                          controller.addressSelectedIndex.value = 1;
+                        },
+                        title: const Text(
+                          'Office',
+                          style: TextStyle(
+                            fontFamily: 'Roboto',
+                            color: darkFontGrey,
+                          ),
+                        ),
+                        secondary: const Icon(
+                          Icons.work,
+                          color: darkFontGrey,
+                        ),
+                      ),
+                      RadioListTile(
+                        value: addressType[2],
+                        groupValue:
+                            addressType[controller.addressSelectedIndex.value],
+                        onChanged: (value) {
+                          controller.addressSelectedIndex.value = 2;
+                        },
+                        activeColor: redColor,
+                        title: const Text(
+                          'Other',
+                          style: TextStyle(
+                            fontFamily: 'Roboto',
+                            color: darkFontGrey,
+                          ),
+                        ),
+                        secondary: const Icon(
+                          Icons.home_work_rounded,
+                          color: darkFontGrey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             )
                 .box
@@ -74,11 +146,17 @@ class CreateShippingDetailsScreen extends StatelessWidget {
           ),
           child: Hero(
             tag: 'custom_button_float',
-            child: CustomButtonWidget(
-              title: 'Save Address',
-              titleColor: whiteColor,
-              backgroundColor: redColor,
-              onPressed: () {},
+            child: Obx(
+              () => controller.isLoading.value
+                  ? loadingIndicator()
+                  : CustomButtonWidget(
+                      title: 'Save Address',
+                      titleColor: whiteColor,
+                      backgroundColor: redColor,
+                      onPressed: () {
+                        controller.saveShippingAddress(context: context);
+                      },
+                    ),
             ),
           ),
         ),

@@ -48,3 +48,5 @@ const profileSectionListIcon = [icOrders, icOrder, icMessages];
 
 const paymentMethodImageList = [imgPaypal, imgStripe, imgCod];
 const paymentMethodList = [paypal, stripe, cod];
+
+const addressType = ['Home', 'Office', 'Other'];

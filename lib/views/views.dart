@@ -4,6 +4,7 @@ export 'account_screen/edit_profile_screen.dart';
 export 'auth_screen/login_screen.dart';
 export 'auth_screen/signup_screen.dart';
 export 'cart_screen/cart_screen.dart';
+export 'cart_screen/components/delivery_details_item_widget.dart';
 export 'cart_screen/create_shipping_details_screen.dart';
 export 'cart_screen/payment_screen.dart';
 export 'cart_screen/shipping_details_screen.dart';

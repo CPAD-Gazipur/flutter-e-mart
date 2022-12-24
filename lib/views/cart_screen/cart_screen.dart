@@ -45,6 +45,7 @@ class CartScreen extends StatelessWidget {
                 var data = snapshot.data!.docs;
 
                 cartController.calculateCartedAllProductPrice(data: data);
+                cartController.productSnapshot = data;
 
                 return Column(
                   children: [
