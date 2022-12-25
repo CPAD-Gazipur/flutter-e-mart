@@ -1,5 +1,6 @@
 import 'package:flutter_e_mart/consts/consts.dart';
 import 'package:flutter_e_mart/controllers/cart_controller.dart';
+import 'package:flutter_e_mart/views/cart_screen/create_shipping_details_screen.dart';
 import 'package:get/get.dart';
 
 class DeliveryDetailsItemWidget extends StatelessWidget {
@@ -110,7 +111,13 @@ class DeliveryDetailsItemWidget extends StatelessWidget {
                         ),
                         const SizedBox(width: 5),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Get.to(
+                              () => CreateShippingDetailsScreen(
+                                deliveryDetails: deliveryAddressDetails,
+                              ),
+                            );
+                          },
                           child: const Padding(
                             padding: EdgeInsets.all(8.0),
                             child: Icon(

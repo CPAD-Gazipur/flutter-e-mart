@@ -31,7 +31,11 @@ class CartController extends GetxController {
     }
   }
 
-  saveShippingAddress({required BuildContext context}) async {
+  saveOrUpdateShippingAddress({
+    required BuildContext context,
+    required bool isUpdate,
+    String? addressID,
+  }) async {
     if (nameController.text.isEmpty) {
       VxToast.show(
         context,
@@ -75,13 +79,13 @@ class CartController extends GetxController {
     } else {
       isLoading(true);
 
-      await firebaseFirestore
-          .collection(userCollection)
-          .doc(auth.currentUser!.uid)
-          .collection(deliveryAddressCollection)
-          .doc()
-          .set(
-        {
+      if (isUpdate) {
+        await firebaseFirestore
+            .collection(userCollection)
+            .doc(auth.currentUser!.uid)
+            .collection(deliveryAddressCollection)
+            .doc(addressID)
+            .set({
           'name': nameController.text,
           'phone': phoneController.text,
           'street_address': streetAddressController.text,
@@ -89,27 +93,63 @@ class CartController extends GetxController {
           'city': cityController.text,
           'address_type': addressType[addressSelectedIndex.value],
           'address_type_index': addressSelectedIndex.value,
-        },
-      ).then((value) {
-        VxToast.show(
-          context,
-          msg: 'Shipping address added!',
-          bgColor: redColor,
-          textColor: whiteColor,
-          position: VxToastPosition.center,
-        );
+        }, SetOptions(merge: true)).then((value) {
+          VxToast.show(
+            context,
+            msg: 'Shipping address updated!',
+            bgColor: redColor,
+            textColor: whiteColor,
+            position: VxToastPosition.center,
+          );
 
-        nameController.clear();
-        phoneController.clear();
-        streetAddressController.clear();
-        postalCodeController.clear();
-        cityController.clear();
-        addressSelectedIndex.value = 0;
+          nameController.clear();
+          phoneController.clear();
+          streetAddressController.clear();
+          postalCodeController.clear();
+          cityController.clear();
+          addressSelectedIndex.value = 0;
 
-        isLoading(false);
+          isLoading(false);
 
-        Get.back();
-      });
+          Get.back();
+        });
+      } else {
+        await firebaseFirestore
+            .collection(userCollection)
+            .doc(auth.currentUser!.uid)
+            .collection(deliveryAddressCollection)
+            .doc()
+            .set(
+          {
+            'name': nameController.text,
+            'phone': phoneController.text,
+            'street_address': streetAddressController.text,
+            'postal_code': postalCodeController.text,
+            'city': cityController.text,
+            'address_type': addressType[addressSelectedIndex.value],
+            'address_type_index': addressSelectedIndex.value,
+          },
+        ).then((value) {
+          VxToast.show(
+            context,
+            msg: 'Shipping address added!',
+            bgColor: redColor,
+            textColor: whiteColor,
+            position: VxToastPosition.center,
+          );
+
+          nameController.clear();
+          phoneController.clear();
+          streetAddressController.clear();
+          postalCodeController.clear();
+          cityController.clear();
+          addressSelectedIndex.value = 0;
+
+          isLoading(false);
+
+          Get.back();
+        });
+      }
     }
   }
 

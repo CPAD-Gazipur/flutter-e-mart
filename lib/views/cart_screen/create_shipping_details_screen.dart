@@ -4,16 +4,32 @@ import 'package:flutter_e_mart/widgets/widgets.dart';
 import 'package:get/get.dart';
 
 class CreateShippingDetailsScreen extends StatelessWidget {
-  const CreateShippingDetailsScreen({Key? key}) : super(key: key);
+  final dynamic deliveryDetails;
+  const CreateShippingDetailsScreen({Key? key, this.deliveryDetails})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var controller = Get.find<CartController>();
 
+    if (deliveryDetails != null) {
+      controller.nameController.text = deliveryDetails.get('name').toString();
+      controller.phoneController.text = deliveryDetails.get('phone').toString();
+      controller.streetAddressController.text =
+          deliveryDetails.get('street_address').toString();
+      controller.postalCodeController.text =
+          deliveryDetails.get('postal_code').toString();
+      controller.cityController.text = deliveryDetails.get('city').toString();
+      controller.addressSelectedIndex.value =
+          deliveryDetails.get('address_type_index');
+    }
+
     return backgroundWidget(
       child: Scaffold(
-        appBar: const CustomAppBarWidget(
-          title: 'Add Shipping Address',
+        appBar: CustomAppBarWidget(
+          title: deliveryDetails != null
+              ? 'Update Shipping Address'
+              : 'Add Shipping Address',
           fontFamily: semibold,
         ),
         body: Padding(
@@ -150,11 +166,17 @@ class CreateShippingDetailsScreen extends StatelessWidget {
               () => controller.isLoading.value
                   ? loadingIndicator()
                   : CustomButtonWidget(
-                      title: 'Save Address',
+                      title: deliveryDetails != null
+                          ? 'Update Address'
+                          : 'Save Address',
                       titleColor: whiteColor,
                       backgroundColor: redColor,
                       onPressed: () {
-                        controller.saveShippingAddress(context: context);
+                        controller.saveOrUpdateShippingAddress(
+                          context: context,
+                          isUpdate: deliveryDetails != null ? true : false,
+                          addressID: deliveryDetails.id,
+                        );
                       },
                     ),
             ),
