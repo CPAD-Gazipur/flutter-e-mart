@@ -175,7 +175,8 @@ class CreateShippingDetailsScreen extends StatelessWidget {
                         controller.saveOrUpdateShippingAddress(
                           context: context,
                           isUpdate: deliveryDetails != null ? true : false,
-                          addressID: deliveryDetails.id,
+                          addressID:
+                              deliveryDetails != null ? deliveryDetails.id : '',
                         );
                       },
                     ),

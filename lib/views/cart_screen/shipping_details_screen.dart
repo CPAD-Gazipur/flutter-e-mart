@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_e_mart/controllers/controllers.dart';
 import 'package:flutter_e_mart/services/firestore_services.dart';
 import 'package:flutter_e_mart/views/cart_screen/create_shipping_details_screen.dart';
-import 'package:flutter_e_mart/views/cart_screen/payment_screen.dart';
+import 'package:flutter_e_mart/views/views.dart';
 import 'package:flutter_e_mart/widgets/widgets.dart';
 import 'package:get/get.dart';
 
@@ -13,6 +14,8 @@ class ShippingDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = Get.find<CartController>();
+
     return backgroundWidget(
       child: Scaffold(
         appBar: const CustomAppBarWidget(
@@ -41,7 +44,17 @@ class ShippingDetailsScreen extends StatelessWidget {
               titleColor: whiteColor,
               backgroundColor: redColor,
               onPressed: () {
-                Get.to(() => const PaymentScreen());
+                if (controller.deliveryAddress != null) {
+                  Get.to(() => const PaymentScreen());
+                } else {
+                  VxToast.show(
+                    context,
+                    msg: 'Please select delivery address',
+                    bgColor: redColor,
+                    textColor: whiteColor,
+                    position: VxToastPosition.center,
+                  );
+                }
               },
             ),
           ),
@@ -53,13 +66,19 @@ class ShippingDetailsScreen extends StatelessWidget {
             AsyncSnapshot<QuerySnapshot> snapshot,
           ) {
             if (!snapshot.hasData) {
+              controller.deliveryAddress = null;
               return loadingIndicator();
             } else if (snapshot.data!.docs.isEmpty) {
+              controller.deliveryAddress = null;
               return Center(
                 child: 'Shipping address is empty'.text.make(),
               );
             } else {
               var data = snapshot.data!.docs;
+
+              debugPrint('${controller.addressSelectedIndex.value}');
+              controller.deliveryAddress =
+                  data[controller.addressSelectedIndex.value];
 
               return Column(
                 children: [
@@ -87,6 +106,7 @@ class ShippingDetailsScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return DeliveryDetailsItemWidget(
                         index: index,
+                        controller: controller,
                         deliveryAddressDetails: data[index],
                       );
                     },

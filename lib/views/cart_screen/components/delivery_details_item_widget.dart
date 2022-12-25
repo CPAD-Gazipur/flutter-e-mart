@@ -6,17 +6,17 @@ import 'package:get/get.dart';
 class DeliveryDetailsItemWidget extends StatelessWidget {
   final dynamic deliveryAddressDetails;
   final int index;
+  final CartController controller;
 
   const DeliveryDetailsItemWidget({
     Key? key,
     required this.deliveryAddressDetails,
     required this.index,
+    required this.controller,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.find<CartController>();
-
     return Obx(
       () => Column(
         children: [
@@ -25,6 +25,7 @@ class DeliveryDetailsItemWidget extends StatelessWidget {
             value: index,
             groupValue: controller.deliveryAddressSelectedIndex.value,
             onChanged: (newValue) {
+              controller.deliveryAddress = deliveryAddressDetails;
               controller.deliveryAddressSelectedIndex.value = newValue!;
             },
             activeColor: redColor,

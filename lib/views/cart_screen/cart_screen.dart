@@ -275,6 +275,8 @@ class CartScreen extends StatelessWidget {
                           titleColor: whiteColor,
                           backgroundColor: redColor,
                           onPressed: () {
+                            cartController.deliveryAddressSelectedIndex.value =
+                                0;
                             Get.to(() => const ShippingDetailsScreen());
                           },
                         ),

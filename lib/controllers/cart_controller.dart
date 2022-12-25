@@ -13,6 +13,7 @@ class CartController extends GetxController {
   var deliveryAddressSelectedIndex = 0.obs;
 
   dynamic productSnapshot;
+  dynamic deliveryAddress;
   var products = [];
 
   var nameController = TextEditingController();
