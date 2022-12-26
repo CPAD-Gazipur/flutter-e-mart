@@ -37,6 +37,7 @@ class LoginScreen extends StatelessWidget {
                       keyboardType: TextInputType.text,
                       isPassword: true,
                       controller: authController.passwordController,
+                      onPressed: () {},
                     ),
                     Align(
                       alignment: Alignment.centerRight,

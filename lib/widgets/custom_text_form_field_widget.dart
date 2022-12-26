@@ -8,6 +8,8 @@ Widget customTextFormFieldWidget({
   TextEditingController? controller,
   bool isLabelShow = true,
   EdgeInsets? contentPadding,
+  bool isHidePassword = true,
+  Function()? onPressed,
 }) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
@@ -20,8 +22,16 @@ Widget customTextFormFieldWidget({
       TextFormField(
         controller: controller,
         keyboardType: keyboardType,
-        obscureText: isPassword,
+        obscureText: isHidePassword,
         decoration: InputDecoration(
+          suffixIcon: isPassword
+              ? IconButton(
+                  onPressed: onPressed,
+                  icon: Icon(
+                    isHidePassword ? Icons.visibility_off : Icons.visibility,
+                  ),
+                )
+              : null,
           hintText: hintText,
           hintStyle: const TextStyle(
             fontFamily: semibold,
@@ -30,7 +40,12 @@ Widget customTextFormFieldWidget({
           isDense: true,
           filled: true,
           fillColor: lightGrey,
-          border: InputBorder.none,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(
+              6,
+            ),
+            borderSide: BorderSide.none,
+          ),
           contentPadding: contentPadding,
           focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(
