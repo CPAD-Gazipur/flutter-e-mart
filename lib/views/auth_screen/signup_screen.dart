@@ -54,14 +54,25 @@ class _SignupScreenState extends State<SignupScreen> {
                         hintText: passwordHint,
                         keyboardType: TextInputType.text,
                         isPassword: true,
+                        isHidePassword:
+                            authController.isSignUpPasswordHide.value,
                         controller: passwordController,
+                        onPressed: () {
+                          authController.isSignUpPasswordHide.value =
+                              !authController.isSignUpPasswordHide.value;
+                        },
                       ),
                       customTextFormFieldWidget(
                         label: confirmPassword,
                         hintText: passwordHint,
                         keyboardType: TextInputType.text,
                         isPassword: true,
+                        isHidePassword:
+                            authController.isSignUpConfirmPasswordHide.value,
                         controller: confirmPasswordController,
+                        onPressed: () {
+                          authController.isSignUpConfirmPasswordHide.value = !authController.isSignUpConfirmPasswordHide.value;
+                        },
                       ),
                       Row(
                         children: [
@@ -294,6 +305,11 @@ class _SignupScreenState extends State<SignupScreen> {
                       .rounded
                       .padding(const EdgeInsets.all(16.0))
                       .width(context.screenWidth - 40)
+                      .margin(
+                        const EdgeInsets.only(
+                          bottom: 20.0,
+                        ),
+                      )
                       .shadowSm
                       .make(),
                 ),

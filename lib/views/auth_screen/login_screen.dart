@@ -36,8 +36,12 @@ class LoginScreen extends StatelessWidget {
                       hintText: passwordHint,
                       keyboardType: TextInputType.text,
                       isPassword: true,
+                      isHidePassword: authController.isLoginPasswordHide.value,
                       controller: authController.passwordController,
-                      onPressed: () {},
+                      onPressed: () {
+                        authController.isLoginPasswordHide.value =
+                            !authController.isLoginPasswordHide.value;
+                      },
                     ),
                     Align(
                       alignment: Alignment.centerRight,

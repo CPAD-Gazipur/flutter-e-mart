@@ -8,7 +8,7 @@ Widget customTextFormFieldWidget({
   TextEditingController? controller,
   bool isLabelShow = true,
   EdgeInsets? contentPadding,
-  bool isHidePassword = true,
+  bool isHidePassword = false,
   Function()? onPressed,
 }) {
   return Column(

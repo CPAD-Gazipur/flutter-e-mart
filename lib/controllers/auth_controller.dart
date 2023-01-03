@@ -7,6 +7,10 @@ import '../consts/consts.dart';
 class AuthController extends GetxController {
   var isLoading = false.obs;
 
+  var isLoginPasswordHide = true.obs;
+  var isSignUpPasswordHide = true.obs;
+  var isSignUpConfirmPasswordHide = true.obs;
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 

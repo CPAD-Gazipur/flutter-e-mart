@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_e_mart/consts/consts.dart';
-import 'package:flutter_e_mart/views/views.dart';
+import 'package:flutter_e_mart/views/splash_screen/splash_screen.dart';
 import 'package:get/get.dart';
 
 import 'firebase_options.dart';
@@ -21,19 +21,19 @@ class MyApp extends StatelessWidget {
     debugPrint('${const Color(0xFF234766).value}');
 
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: appName,
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.transparent,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.transparent,
-          iconTheme: IconThemeData(
-            color: darkFontGrey,
+        debugShowCheckedModeBanner: false,
+        title: appName,
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.transparent,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.transparent,
+            iconTheme: IconThemeData(
+              color: darkFontGrey,
+            ),
           ),
+          fontFamily: regular,
         ),
-        fontFamily: regular,
-      ),
-      home: const SplashScreen(),
-    );
+        home: const SplashScreen() //const SliverAppBarScreen(),
+        );
   }
 }
