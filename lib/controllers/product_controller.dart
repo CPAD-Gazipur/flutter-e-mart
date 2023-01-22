@@ -70,7 +70,7 @@ class ProductController extends GetxController {
     required String pQuantity,
     required String buyerID,
   }) async {
-    await firebaseFirestore.collection(cartCollection).doc().set(
+    await firebaseFirestore.collection(cartCollection).add(
       {
         'p_ID': pID,
         'p_name': pTitle,
@@ -89,12 +89,27 @@ class ProductController extends GetxController {
         textColor: whiteColor,
         bgColor: redColor,
       );
-    });
+    }).then(
+      (value) async {
+        await firebaseFirestore
+            .collection(userCollection)
+            .doc(auth.currentUser!.uid)
+            .set({
+          'cart': FieldValue.arrayUnion([value.id]),
+        }, SetOptions(merge: true));
+      },
+    );
   }
 
   addProductToWishList({required String productID}) async {
     await firebaseFirestore.collection(productCollection).doc(productID).set({
       'p_wishlist': FieldValue.arrayUnion([auth.currentUser!.uid]),
+    }, SetOptions(merge: true));
+    await firebaseFirestore
+        .collection(userCollection)
+        .doc(auth.currentUser!.uid)
+        .set({
+      'wishlist': FieldValue.arrayUnion([productID]),
     }, SetOptions(merge: true));
     isFavorite(true);
   }
@@ -102,6 +117,12 @@ class ProductController extends GetxController {
   removeProductFromWishList({required String productID}) async {
     await firebaseFirestore.collection(productCollection).doc(productID).set({
       'p_wishlist': FieldValue.arrayRemove([auth.currentUser!.uid]),
+    }, SetOptions(merge: true));
+    await firebaseFirestore
+        .collection(userCollection)
+        .doc(auth.currentUser!.uid)
+        .set({
+      'wishlist': FieldValue.arrayRemove([productID]),
     }, SetOptions(merge: true));
     isFavorite(false);
   }

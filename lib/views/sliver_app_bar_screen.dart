@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SliverAppBarScreen extends StatelessWidget {
@@ -19,27 +20,38 @@ class SliverAppBarScreen extends StatelessWidget {
                   color: Colors.white,
                 ),
                 //expandedHeight: 100,
-                collapsedHeight: 110,
-                floating: true,
+                floating: false,
                 pinned: true,
+                collapsedHeight: 100,
                 flexibleSpace: FlexibleSpaceBar(
+                  collapseMode: CollapseMode.parallax,
                   title: Container(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 25,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 10,
-                    ),
-                    child: TextFormField(
+                      margin: const EdgeInsets.symmetric(
+                        vertical: 25,
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 10,
+                      ),
+                      child: CupertinoSearchTextField(
+                        padding: const EdgeInsets.all(15),
+                        placeholder: 'Search by books,',
+                        autocorrect: false,
+                        enabled: false,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        onTap: () {},
+                      ) /*TextFormField(
                       decoration: const InputDecoration(
-                        hintText: 'Search by books,',
+                        hintText: '',
                         fillColor: Colors.white,
                         filled: true,
                         border: OutlineInputBorder(),
                       ),
-                    ),
-                  ),
+                    ),*/
+                      ),
                 ),
                 bottom: const TabBar(
                   indicatorColor: Colors.white,
@@ -71,6 +83,7 @@ class SliverAppBarScreen extends StatelessWidget {
               ),
             ];
           },
+          floatHeaderSlivers: true,
           body: TabBarView(
             children: [
               CustomScrollView(

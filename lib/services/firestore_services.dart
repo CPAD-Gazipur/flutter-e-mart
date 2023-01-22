@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_e_mart/consts/consts.dart';
 
 class FirestoreServices {
@@ -31,7 +32,13 @@ class FirestoreServices {
   }
 
   /// REMOVE CART ITEM
-  static removeCartItem({required String cartID}) {
+  static removeCartItem({required String cartID}) async {
+    await firebaseFirestore
+        .collection(userCollection)
+        .doc(auth.currentUser!.uid)
+        .set({
+      'cart': FieldValue.arrayRemove([cartID]),
+    }, SetOptions(merge: true));
     return firebaseFirestore.collection(cartCollection).doc(cartID).delete();
   }
 
