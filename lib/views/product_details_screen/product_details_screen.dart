@@ -617,42 +617,51 @@ class ProductDetailsScreen extends StatelessWidget {
               () => productController.isLoading.value
                   ? loadingIndicator()
                   : CustomButtonWidget(
-                      title: 'Add To Cart',
+                      title: productController.isAlreadyCarted.value
+                          ? 'Go To Cart'
+                          : 'Add To Cart',
                       titleColor: whiteColor,
                       backgroundColor: redColor,
                       onPressed: () {
-                        productController.isLoading(true);
-
-                        try {
-                          productController.addToCart(
-                            context: context,
-                            pID: productDetails['p_ID'],
-                            pTitle: productDetails['p_name'],
-                            pImage: productDetails['p_images'][0],
-                            seller: productDetails['p_seller'],
-                            sellerID: productDetails['p_sellerID'],
-                            totalPrice: productController.totalPrice.toString(),
-                            pColor: productDetails['p_colors']
-                                [productController.selectedColorIndex.value],
-                            pQuantity: productController.selectedQuantity.value
-                                .toString(),
-                            buyerID: auth.currentUser!.uid,
-                          );
-                          VxToast.show(
-                            context,
-                            msg: 'Added To Cart',
-                            textColor: whiteColor,
-                            bgColor: redColor,
-                          );
-                          productController.isLoading(false);
-                        } catch (e) {
-                          VxToast.show(
-                            context,
-                            msg: e.toString(),
-                            textColor: whiteColor,
-                            bgColor: redColor,
-                          );
-                          productController.isLoading(false);
+                        if (productController.isAlreadyCarted.value) {
+                          Get.back();
+                          Get.find<HomeController>().currentNaIndex.value = 2;
+                        } else {
+                          productController.isLoading(true);
+                          try {
+                            productController.addToCart(
+                              context: context,
+                              pID: productDetails['p_ID'],
+                              pTitle: productDetails['p_name'],
+                              pImage: productDetails['p_images'][0],
+                              seller: productDetails['p_seller'],
+                              sellerID: productDetails['p_sellerID'],
+                              totalPrice:
+                                  productController.totalPrice.toString(),
+                              pColor: productDetails['p_colors']
+                                  [productController.selectedColorIndex.value],
+                              pQuantity: productController
+                                  .selectedQuantity.value
+                                  .toString(),
+                              buyerID: auth.currentUser!.uid,
+                            );
+                            VxToast.show(
+                              context,
+                              msg: 'Added To Cart',
+                              textColor: whiteColor,
+                              bgColor: redColor,
+                            );
+                            productController.isAlreadyCarted.value = true;
+                            productController.isLoading(false);
+                          } catch (e) {
+                            VxToast.show(
+                              context,
+                              msg: e.toString(),
+                              textColor: whiteColor,
+                              bgColor: redColor,
+                            );
+                            productController.isLoading(false);
+                          }
                         }
                       },
                     ),

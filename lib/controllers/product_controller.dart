@@ -15,6 +15,7 @@ class ProductController extends GetxController {
 
   var isLoading = false.obs;
   var isFavorite = false.obs;
+  var isAlreadyCarted = false.obs;
 
   var subCategory = [];
 
@@ -56,6 +57,34 @@ class ProductController extends GetxController {
     currentImageIndex.value = 0;
     selectedColorIndex.value = 0;
     selectedQuantity.value = 1;
+  }
+
+  checkAddToCartProduct({required String pID}) async {
+    List<String> pList = [];
+
+    var result = await firebaseFirestore
+        .collection(userCollection)
+        .doc(auth.currentUser!.uid)
+        .get();
+
+    List cartList = result.get('cart');
+
+    for (var cart in cartList) {
+      var cartResult =
+          await firebaseFirestore.collection(cartCollection).doc(cart).get();
+
+      var productID = cartResult.get('p_ID');
+
+      pList.add(productID);
+    }
+
+    if (pList.contains(pID)) {
+      isAlreadyCarted.value = true;
+    } else {
+      isAlreadyCarted.value = false;
+    }
+
+    debugPrint('IS CARTED: $isAlreadyCarted');
   }
 
   addToCart({

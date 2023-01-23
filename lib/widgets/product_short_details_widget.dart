@@ -200,6 +200,10 @@ class ProductShortDetails extends StatelessWidget {
 
         productController.checkFavoriteProduct(productDetails: productDetails);
 
+        productController.checkAddToCartProduct(
+          pID: productDetails['p_ID'].toString(),
+        );
+
         productController.calculateTotalPrice(
           price: double.parse(
             productDetails['p_sellPrice'].toString(),
