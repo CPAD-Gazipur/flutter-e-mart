@@ -24,6 +24,10 @@ class CartController extends GetxController {
 
   var addressSelectedIndex = 0.obs;
 
+  changePaymentIndex({required int index}) {
+    paymentSelectedIndex.value = index;
+  }
+
   calculateCartedAllProductPrice({required var data}) {
     cartTotalPrice.value = 0.0;
     for (var i = 0; i < data.length; i++) {
