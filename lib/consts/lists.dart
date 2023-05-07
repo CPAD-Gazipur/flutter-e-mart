@@ -43,8 +43,8 @@ const productDetailsItemList = [
   supportPolicy,
 ];
 
-const profileSectionList = [myOrders, myWishList, myMessages];
-const profileSectionListIcon = [icOrders, icOrder, icMessages];
+const profileSectionList = [myOrders, myWishList, myMessages, myNotification];
+const profileSectionListIcon = [icOrders, icOrder, icMessages, icMessages];
 
 const paymentMethodImageList = [imgPaypal, imgStripe, imgCod];
 const paymentMethodList = [paypal, stripe, cod];

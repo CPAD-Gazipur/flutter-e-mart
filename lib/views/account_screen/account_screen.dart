@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_e_mart/consts/consts.dart';
 import 'package:flutter_e_mart/controllers/controllers.dart';
 import 'package:flutter_e_mart/services/firestore_services.dart';
+import 'package:flutter_e_mart/services/notification_service.dart';
 import 'package:flutter_e_mart/views/views.dart';
 import 'package:get/get.dart';
 
@@ -185,6 +186,24 @@ class AccountScreen extends StatelessWidget {
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             return ListTile(
+                              onTap: () async {
+                                await NotificationService()
+                                    .showLocalNotification(
+                                  id: 0,
+                                  title: "Drink Water",
+                                  body: "Time to drink some water!",
+                                  payload: "You just took water! Huurray!",
+                                );
+
+                                await NotificationService()
+                                    .showScheduledLocalNotification(
+                                  id: 1,
+                                  title: "Drink Drinko",
+                                  body: "Time to drink some water!",
+                                  payload: "You just took water! Huurray!",
+                                  seconds: 2,
+                                );
+                              },
                               title: profileSectionList[index]
                                   .text
                                   .fontFamily(semibold)

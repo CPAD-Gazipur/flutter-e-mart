@@ -2,12 +2,41 @@ import 'package:badges/badges.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_e_mart/consts/consts.dart';
 import 'package:flutter_e_mart/controllers/controllers.dart';
-import 'package:flutter_e_mart/services/firestore_services.dart';
+import 'package:flutter_e_mart/services/services.dart';
 import 'package:flutter_e_mart/views/views.dart';
 import 'package:get/get.dart';
 
-class HomeNavBar extends StatelessWidget {
+class HomeNavBar extends StatefulWidget {
   const HomeNavBar({Key? key}) : super(key: key);
+
+  @override
+  State<HomeNavBar> createState() => _HomeNavBarState();
+}
+
+class _HomeNavBarState extends State<HomeNavBar> {
+  late final NotificationService notificationService;
+
+  void listenToNotificationStream() =>
+      notificationService.behaviorSubject.listen(
+        (payload) {
+          debugPrint(payload);
+          if (payload == '/cart') {
+            Get.to(() => const HomeNavBar());
+            Get.find<HomeController>().currentNaIndex.value = 2;
+          } else {
+            Get.put(CartController());
+            Get.to(() => const ShippingDetailsScreen());
+          }
+        },
+      );
+
+  @override
+  void initState() {
+    notificationService = NotificationService();
+    listenToNotificationStream();
+    notificationService.initializePlatformNotifications();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

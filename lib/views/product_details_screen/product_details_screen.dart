@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_e_mart/controllers/controllers.dart';
+import 'package:flutter_e_mart/services/services.dart';
 import 'package:flutter_e_mart/views/chat_screen/chat_screen.dart';
 import 'package:flutter_e_mart/widgets/widgets.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
@@ -691,7 +692,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                 : 'Add To Cart',
                             titleColor: whiteColor,
                             backgroundColor: redColor,
-                            onPressed: () {
+                            onPressed: () async {
                               if (productController.isAlreadyCarted.value) {
                                 Get.back();
                                 Get.find<HomeController>()
@@ -722,6 +723,14 @@ class ProductDetailsScreen extends StatelessWidget {
                                     msg: 'Added To Cart',
                                     textColor: whiteColor,
                                     bgColor: redColor,
+                                  );
+                                  await NotificationService()
+                                      .showLocalNotification(
+                                    id: 0,
+                                    title: "Added To Cart",
+                                    body:
+                                        "${productDetails['p_name']} is added on your cart. Go to cart screen.",
+                                    payload: "/cart",
                                   );
                                   productController.isAlreadyCarted.value =
                                       true;
