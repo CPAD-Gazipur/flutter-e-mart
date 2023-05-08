@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_e_mart/consts/consts.dart';
-import 'package:flutter_e_mart/views/auth_screen/login_screen.dart';
-import 'package:flutter_e_mart/views/home_screen/home_nav_bar.dart';
+import 'package:flutter_e_mart/views/views.dart';
 import 'package:flutter_e_mart/widgets/widgets.dart';
 import 'package:get/get.dart';
 

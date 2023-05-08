@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_e_mart/controllers/controllers.dart';
+import 'package:flutter_e_mart/models/shipping_address.dart';
 import 'package:get/get.dart';
 
 import '../consts/consts.dart';
@@ -13,7 +14,7 @@ class CartController extends GetxController {
   var deliveryAddressSelectedIndex = 0.obs;
 
   dynamic productSnapshot;
-  dynamic deliveryAddress;
+  ShippingAddress? deliveryAddress;
   var products = [];
 
   var nameController = TextEditingController();
@@ -82,7 +83,7 @@ class CartController extends GetxController {
         position: VxToastPosition.center,
       );
     } else {
-      isLoading(true);
+      showLoading(context);
 
       if (isUpdate) {
         await firebaseFirestore
@@ -93,11 +94,11 @@ class CartController extends GetxController {
             .set({
           'name': nameController.text,
           'phone': phoneController.text,
-          'street_address': streetAddressController.text,
-          'postal_code': postalCodeController.text,
+          'streetAddress': streetAddressController.text,
+          'postalCode': postalCodeController.text,
           'city': cityController.text,
-          'address_type': addressType[addressSelectedIndex.value],
-          'address_type_index': addressSelectedIndex.value,
+          'addressType': addressType[addressSelectedIndex.value],
+          'addressTypeIndex': addressSelectedIndex.value,
         }, SetOptions(merge: true)).then((value) {
           VxToast.show(
             context,
@@ -107,34 +108,31 @@ class CartController extends GetxController {
             position: VxToastPosition.center,
           );
 
-          nameController.clear();
-          phoneController.clear();
-          streetAddressController.clear();
-          postalCodeController.clear();
-          cityController.clear();
-          addressSelectedIndex.value = 0;
+          clearController();
 
-          isLoading(false);
+          dismissLoading();
 
+          /// BACK TO PREVIOUS SCREEN
           Get.back();
         });
       } else {
+        ShippingAddress shippingAddress = ShippingAddress(
+          name: nameController.text,
+          phone: phoneController.text,
+          streetAddress: streetAddressController.text,
+          postalCode: postalCodeController.text,
+          city: cityController.text,
+          addressType: addressType[addressSelectedIndex.value],
+          addressTypeIndex: addressSelectedIndex.value,
+        );
+
         await firebaseFirestore
             .collection(userCollection)
             .doc(auth.currentUser!.uid)
             .collection(deliveryAddressCollection)
             .doc()
-            .set(
-          {
-            'name': nameController.text,
-            'phone': phoneController.text,
-            'street_address': streetAddressController.text,
-            'postal_code': postalCodeController.text,
-            'city': cityController.text,
-            'address_type': addressType[addressSelectedIndex.value],
-            'address_type_index': addressSelectedIndex.value,
-          },
-        ).then((value) {
+            .set(shippingAddress.toMap())
+            .then((value) {
           VxToast.show(
             context,
             msg: 'Shipping address added!',
@@ -143,15 +141,11 @@ class CartController extends GetxController {
             position: VxToastPosition.center,
           );
 
-          nameController.clear();
-          phoneController.clear();
-          streetAddressController.clear();
-          postalCodeController.clear();
-          cityController.clear();
-          addressSelectedIndex.value = 0;
+          clearController();
 
-          isLoading(false);
+          dismissLoading();
 
+          /// BACK TO PREVIOUS SCREEN
           Get.back();
         });
       }
@@ -194,6 +188,7 @@ class CartController extends GetxController {
       'order_user_email': auth.currentUser!.email,
       'order_user_address': streetAddressController.text,
       'order_user_city': cityController.text,
+      'order_user_phone': phoneController.text,
       'order_user_postal_code': postalCodeController.text,
       'order_shipping_method': 'Home Delivery',
       'order_payment_method': paymentMethod,
@@ -201,5 +196,33 @@ class CartController extends GetxController {
       'order_total_amount': totalAmount,
       'orders': FieldValue.arrayUnion(products),
     });
+  }
+
+  void clearController() {
+    nameController.clear();
+    phoneController.clear();
+    streetAddressController.clear();
+    postalCodeController.clear();
+    cityController.clear();
+    addressSelectedIndex.value = 0;
+  }
+
+  Future showLoading(context) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return Container(
+          color: Colors.transparent,
+          child: const Center(
+            child: CircularProgressIndicator.adaptive(),
+          ),
+        );
+      },
+    );
+  }
+
+  void dismissLoading() {
+    Get.back();
   }
 }

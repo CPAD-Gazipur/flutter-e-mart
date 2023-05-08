@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_e_mart/consts/consts.dart';
 import 'package:flutter_e_mart/controllers/controllers.dart';
 import 'package:flutter_e_mart/services/firestore_services.dart';
-import 'package:flutter_e_mart/views/home_screen/components/featured_button.dart';
 import 'package:flutter_e_mart/views/views.dart';
 import 'package:flutter_e_mart/widgets/widgets.dart';
 import 'package:get/get.dart';

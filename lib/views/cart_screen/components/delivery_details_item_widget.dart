@@ -1,17 +1,20 @@
 import 'package:flutter_e_mart/consts/consts.dart';
 import 'package:flutter_e_mart/controllers/cart_controller.dart';
+import 'package:flutter_e_mart/models/shipping_address.dart';
 import 'package:flutter_e_mart/views/cart_screen/create_shipping_details_screen.dart';
 import 'package:get/get.dart';
 
 class DeliveryDetailsItemWidget extends StatelessWidget {
-  final dynamic deliveryAddressDetails;
+  final ShippingAddress deliveryAddressDetails;
   final int index;
+  final String deliveryAddressID;
   final CartController controller;
 
   const DeliveryDetailsItemWidget({
     Key? key,
     required this.deliveryAddressDetails,
     required this.index,
+    required this.deliveryAddressID,
     required this.controller,
   }) : super(key: key);
 
@@ -37,7 +40,7 @@ class DeliveryDetailsItemWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${deliveryAddressDetails.get('name')}',
+                  deliveryAddressDetails.name,
                   style: const TextStyle(
                     fontFamily: 'Roboto',
                     color: darkFontGrey,
@@ -61,8 +64,7 @@ class DeliveryDetailsItemWidget extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      '${deliveryAddressDetails.get('address_type')}'
-                          .toUpperCase(),
+                      deliveryAddressDetails.addressType.toUpperCase(),
                       style: const TextStyle(
                         fontFamily: 'Roboto',
                         color: whiteColor,
@@ -79,7 +81,7 @@ class DeliveryDetailsItemWidget extends StatelessWidget {
               children: [
                 const SizedBox(height: 5),
                 Text(
-                  '${deliveryAddressDetails.get('street_address')} - ${deliveryAddressDetails.get('postal_code')}, ${deliveryAddressDetails.get('city')}',
+                  '${deliveryAddressDetails.streetAddress} - ${deliveryAddressDetails.postalCode}, ${deliveryAddressDetails.city}',
                   style: const TextStyle(
                     fontFamily: 'Roboto',
                     color: darkFontGrey,
@@ -90,7 +92,7 @@ class DeliveryDetailsItemWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${deliveryAddressDetails.get('phone')}',
+                      deliveryAddressDetails.phone,
                       style: const TextStyle(
                         fontFamily: 'Roboto',
                         color: darkFontGrey,
@@ -177,7 +179,7 @@ class DeliveryDetailsItemWidget extends StatelessWidget {
           onPressed: () {
             Get.back();
             Get.find<CartController>().deleteDeliveryAddress(
-              deliveryAddressID: deliveryAddressDetails.id,
+              deliveryAddressID: deliveryAddressID,
             );
           },
         ),

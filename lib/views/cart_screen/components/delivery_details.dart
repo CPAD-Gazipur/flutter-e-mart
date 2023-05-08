@@ -1,7 +1,9 @@
+import 'package:flutter_e_mart/models/shipping_address.dart';
+
 import '../../../consts/consts.dart';
 
 class DeliveryDetails extends StatelessWidget {
-  final dynamic deliveryAddressDetails;
+  final ShippingAddress deliveryAddressDetails;
   const DeliveryDetails({
     Key? key,
     required this.deliveryAddressDetails,
@@ -14,7 +16,7 @@ class DeliveryDetails extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            '${deliveryAddressDetails.get('name')}',
+            deliveryAddressDetails.name,
             style: const TextStyle(
               fontFamily: 'Roboto',
               color: darkFontGrey,
@@ -35,7 +37,7 @@ class DeliveryDetails extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                '${deliveryAddressDetails.get('address_type')}'.toUpperCase(),
+                deliveryAddressDetails.addressType.toUpperCase(),
                 style: const TextStyle(
                   fontFamily: 'Roboto',
                   color: whiteColor,
@@ -52,7 +54,7 @@ class DeliveryDetails extends StatelessWidget {
         children: [
           const SizedBox(height: 5),
           Text(
-            '${deliveryAddressDetails.get('street_address')} - ${deliveryAddressDetails.get('postal_code')}, ${deliveryAddressDetails.get('city')}',
+            '${deliveryAddressDetails.streetAddress} - ${deliveryAddressDetails.postalCode}, ${deliveryAddressDetails.city}',
             style: const TextStyle(
               fontFamily: 'Roboto',
               color: darkFontGrey,
@@ -60,7 +62,7 @@ class DeliveryDetails extends StatelessWidget {
           ),
           const SizedBox(height: 2),
           Text(
-            '${deliveryAddressDetails.get('phone')}',
+            deliveryAddressDetails.phone,
             style: const TextStyle(
               fontFamily: 'Roboto',
               color: darkFontGrey,

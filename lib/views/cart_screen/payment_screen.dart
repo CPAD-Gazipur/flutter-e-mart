@@ -18,22 +18,6 @@ class PaymentScreen extends StatelessWidget {
           title: 'Choose Payment Method',
           fontFamily: semibold,
         ),
-        bottomNavigationBar: Container(
-          padding: const EdgeInsets.only(
-            left: 10,
-            right: 10,
-            bottom: 10,
-          ),
-          child: Hero(
-            tag: 'custom_button',
-            child: CustomButtonWidget(
-              title: 'Place Order',
-              titleColor: whiteColor,
-              backgroundColor: redColor,
-              onPressed: () {},
-            ),
-          ),
-        ),
         body: Column(
           children: [
             const ListTile(
@@ -248,7 +232,7 @@ class PaymentScreen extends StatelessWidget {
                             .make(),
                         const SizedBox(height: 16),
                         DeliveryDetails(
-                          deliveryAddressDetails: controller.deliveryAddress,
+                          deliveryAddressDetails: controller.deliveryAddress!,
                         ),
                         const SizedBox(height: 16),
                       ],
@@ -258,6 +242,22 @@ class PaymentScreen extends StatelessWidget {
               ),
             ),
           ],
+        ),
+        bottomNavigationBar: Container(
+          padding: const EdgeInsets.only(
+            left: 10,
+            right: 10,
+            bottom: 10,
+          ),
+          child: Hero(
+            tag: 'custom_button',
+            child: CustomButtonWidget(
+              title: 'Place Order',
+              titleColor: whiteColor,
+              backgroundColor: redColor,
+              onPressed: () {},
+            ),
+          ),
         ),
       ),
     );

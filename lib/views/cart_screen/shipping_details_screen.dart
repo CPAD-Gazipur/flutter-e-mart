@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_e_mart/controllers/controllers.dart';
+import 'package:flutter_e_mart/models/shipping_address.dart';
 import 'package:flutter_e_mart/services/firestore_services.dart';
 import 'package:flutter_e_mart/views/cart_screen/create_shipping_details_screen.dart';
 import 'package:flutter_e_mart/views/views.dart';
@@ -76,9 +77,11 @@ class ShippingDetailsScreen extends StatelessWidget {
             } else {
               var data = snapshot.data!.docs;
 
-              debugPrint('${controller.addressSelectedIndex.value}');
-              controller.deliveryAddress =
+              DocumentSnapshot addressSnapshot =
                   data[controller.addressSelectedIndex.value];
+
+              controller.deliveryAddress = ShippingAddress.fromMap(
+                  addressSnapshot.data() as Map<String, dynamic>);
 
               return Column(
                 children: [
@@ -107,7 +110,9 @@ class ShippingDetailsScreen extends StatelessWidget {
                       return DeliveryDetailsItemWidget(
                         index: index,
                         controller: controller,
-                        deliveryAddressDetails: data[index],
+                        deliveryAddressID: data[index].id,
+                        deliveryAddressDetails: ShippingAddress.fromMap(
+                            data[index].data() as Map<String, dynamic>),
                       );
                     },
                   ).box.white.make(),
