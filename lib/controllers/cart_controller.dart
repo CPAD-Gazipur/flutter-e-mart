@@ -85,21 +85,41 @@ class CartController extends GetxController {
     } else {
       showLoading(context);
 
+      String shippingAddressID;
+
+      if (isUpdate) {
+        shippingAddressID = addressID!;
+      } else {
+        shippingAddressID = firebaseFirestore
+            .collection(userCollection)
+            .doc(auth.currentUser!.uid)
+            .collection(deliveryAddressCollection)
+            .doc()
+            .id;
+      }
+
+      ShippingAddress shippingAddress = ShippingAddress(
+        id: shippingAddressID,
+        name: nameController.text,
+        phone: phoneController.text,
+        streetAddress: streetAddressController.text,
+        postalCode: postalCodeController.text,
+        city: cityController.text,
+        addressType: addressType[addressSelectedIndex.value],
+        addressTypeIndex: addressSelectedIndex.value,
+      );
+
       if (isUpdate) {
         await firebaseFirestore
             .collection(userCollection)
             .doc(auth.currentUser!.uid)
             .collection(deliveryAddressCollection)
-            .doc(addressID)
-            .set({
-          'name': nameController.text,
-          'phone': phoneController.text,
-          'streetAddress': streetAddressController.text,
-          'postalCode': postalCodeController.text,
-          'city': cityController.text,
-          'addressType': addressType[addressSelectedIndex.value],
-          'addressTypeIndex': addressSelectedIndex.value,
-        }, SetOptions(merge: true)).then((value) {
+            .doc(shippingAddressID)
+            .set(
+              shippingAddress.toMap(),
+              SetOptions(merge: true),
+            )
+            .then((value) {
           VxToast.show(
             context,
             msg: 'Shipping address updated!',
@@ -116,21 +136,11 @@ class CartController extends GetxController {
           Get.back();
         });
       } else {
-        ShippingAddress shippingAddress = ShippingAddress(
-          name: nameController.text,
-          phone: phoneController.text,
-          streetAddress: streetAddressController.text,
-          postalCode: postalCodeController.text,
-          city: cityController.text,
-          addressType: addressType[addressSelectedIndex.value],
-          addressTypeIndex: addressSelectedIndex.value,
-        );
-
         await firebaseFirestore
             .collection(userCollection)
             .doc(auth.currentUser!.uid)
             .collection(deliveryAddressCollection)
-            .doc()
+            .doc(shippingAddressID)
             .set(shippingAddress.toMap())
             .then((value) {
           VxToast.show(

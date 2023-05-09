@@ -1,27 +1,27 @@
 import 'package:flutter_e_mart/consts/consts.dart';
 import 'package:flutter_e_mart/controllers/cart_controller.dart';
+import 'package:flutter_e_mart/models/shipping_address.dart';
 import 'package:flutter_e_mart/widgets/widgets.dart';
 import 'package:get/get.dart';
 
 class CreateShippingDetailsScreen extends StatelessWidget {
-  final dynamic deliveryDetails;
-  const CreateShippingDetailsScreen({Key? key, this.deliveryDetails})
-      : super(key: key);
+  final ShippingAddress? deliveryDetails;
+  const CreateShippingDetailsScreen({
+    Key? key,
+    this.deliveryDetails,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var controller = Get.find<CartController>();
 
     if (deliveryDetails != null) {
-      controller.nameController.text = deliveryDetails.get('name').toString();
-      controller.phoneController.text = deliveryDetails.get('phone').toString();
-      controller.streetAddressController.text =
-          deliveryDetails.get('street_address').toString();
-      controller.postalCodeController.text =
-          deliveryDetails.get('postal_code').toString();
-      controller.cityController.text = deliveryDetails.get('city').toString();
-      controller.addressSelectedIndex.value =
-          deliveryDetails.get('address_type_index');
+      controller.nameController.text = deliveryDetails!.name;
+      controller.phoneController.text = deliveryDetails!.phone;
+      controller.streetAddressController.text = deliveryDetails!.streetAddress;
+      controller.postalCodeController.text = deliveryDetails!.postalCode;
+      controller.cityController.text = deliveryDetails!.city;
+      controller.addressSelectedIndex.value = deliveryDetails!.addressTypeIndex;
     }
 
     return backgroundWidget(
@@ -175,8 +175,9 @@ class CreateShippingDetailsScreen extends StatelessWidget {
                         controller.saveOrUpdateShippingAddress(
                           context: context,
                           isUpdate: deliveryDetails != null ? true : false,
-                          addressID:
-                              deliveryDetails != null ? deliveryDetails.id : '',
+                          addressID: deliveryDetails != null
+                              ? deliveryDetails!.id
+                              : '',
                         );
                       },
                     ),

@@ -77,11 +77,18 @@ class ShippingDetailsScreen extends StatelessWidget {
             } else {
               var data = snapshot.data!.docs;
 
-              DocumentSnapshot addressSnapshot =
-                  data[controller.addressSelectedIndex.value];
+              if (data.length >= controller.addressSelectedIndex.value) {
+                DocumentSnapshot addressSnapshot =
+                    data[controller.addressSelectedIndex.value];
 
-              controller.deliveryAddress = ShippingAddress.fromMap(
-                  addressSnapshot.data() as Map<String, dynamic>);
+                controller.deliveryAddress = ShippingAddress.fromMap(
+                    addressSnapshot.data() as Map<String, dynamic>);
+              } else {
+                DocumentSnapshot addressSnapshot = data[0];
+
+                controller.deliveryAddress = ShippingAddress.fromMap(
+                    addressSnapshot.data() as Map<String, dynamic>);
+              }
 
               return Column(
                 children: [
@@ -110,7 +117,6 @@ class ShippingDetailsScreen extends StatelessWidget {
                       return DeliveryDetailsItemWidget(
                         index: index,
                         controller: controller,
-                        deliveryAddressID: data[index].id,
                         deliveryAddressDetails: ShippingAddress.fromMap(
                             data[index].data() as Map<String, dynamic>),
                       );

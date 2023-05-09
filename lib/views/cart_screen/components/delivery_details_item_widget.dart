@@ -7,14 +7,12 @@ import 'package:get/get.dart';
 class DeliveryDetailsItemWidget extends StatelessWidget {
   final ShippingAddress deliveryAddressDetails;
   final int index;
-  final String deliveryAddressID;
   final CartController controller;
 
   const DeliveryDetailsItemWidget({
     Key? key,
     required this.deliveryAddressDetails,
     required this.index,
-    required this.deliveryAddressID,
     required this.controller,
   }) : super(key: key);
 
@@ -179,7 +177,7 @@ class DeliveryDetailsItemWidget extends StatelessWidget {
           onPressed: () {
             Get.back();
             Get.find<CartController>().deleteDeliveryAddress(
-              deliveryAddressID: deliveryAddressID,
+              deliveryAddressID: deliveryAddressDetails.id,
             );
           },
         ),
