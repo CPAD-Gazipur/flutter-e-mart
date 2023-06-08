@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_e_mart/controllers/controllers.dart';
 import 'package:flutter_e_mart/models/shipping_address.dart';
@@ -172,6 +174,7 @@ class CartController extends GetxController {
   }
 
   getProductDetails() {
+    products.clear();
     for (var i = 0; i < productSnapshot.length; i++) {
       products.add({
         'p_ID': productSnapshot[i]['p_ID'],
@@ -185,27 +188,44 @@ class CartController extends GetxController {
   }
 
   placeOrder({
-    required int paymentMethod,
+    required String paymentMethod,
+    required ShippingAddress shippingAddress,
     required double totalAmount,
   }) async {
     await getProductDetails();
 
-    await firebaseFirestore.collection(orderCollection).doc().set({
-      'order_number': '#44404442',
-      'order_date': FieldValue.serverTimestamp(),
+    await firebaseFirestore
+        .collection(orderCollection)
+        .doc(generateOrderNumber())
+        .set({
+      'shipping_address': shippingAddress.toMap(),
+      'order_number': generateOrderNumber(),
+      'date': FieldValue.serverTimestamp(),
       'order_by': auth.currentUser!.uid,
-      'order_user_name': Get.find<HomeController>().userName,
-      'order_user_email': auth.currentUser!.email,
-      'order_user_address': streetAddressController.text,
-      'order_user_city': cityController.text,
-      'order_user_phone': phoneController.text,
-      'order_user_postal_code': postalCodeController.text,
-      'order_shipping_method': 'Home Delivery',
-      'order_payment_method': paymentMethod,
-      'order_placed': true,
-      'order_total_amount': totalAmount,
-      'orders': FieldValue.arrayUnion(products),
+      'user_name': Get.find<HomeController>().userName.value,
+      'user_email': auth.currentUser!.email,
+      'payment_method': paymentMethod,
+      'order_status': {
+        'order_placed': true,
+        'order_confirmation': false,
+        'order_on_delivery': false,
+        'order_completed': false,
+      },
+      'total_amount': totalAmount,
+      'products': FieldValue.arrayUnion(products),
     });
+  }
+
+  String generateOrderNumber() {
+    int randomNumber = Random().nextInt(9000) + 1000;
+
+    DateTime now = DateTime.now();
+
+    String timestamp = now.microsecondsSinceEpoch.toString();
+
+    String orderNumber = '$timestamp$randomNumber';
+
+    return orderNumber;
   }
 
   void clearController() {

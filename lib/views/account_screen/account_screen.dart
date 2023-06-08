@@ -25,9 +25,9 @@ class AccountScreen extends StatelessWidget {
               BuildContext context,
               AsyncSnapshot<QuerySnapshot> snapshot,
             ) {
-              if (!snapshot.hasData) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
                 return loadingIndicator();
-              } else {
+              } else if (snapshot.hasData) {
                 var data = snapshot.data!.docs[0];
 
                 var profileImageURL = '';
@@ -37,8 +37,6 @@ class AccountScreen extends StatelessWidget {
                 } catch (e) {
                   profileImageURL = profileImage;
                 }
-
-                debugPrint('${data['cart']}');
 
                 return Column(
                   children: [
@@ -243,6 +241,8 @@ class AccountScreen extends StatelessWidget {
                     ).box.color(redColor).make(),
                   ],
                 );
+              } else {
+                return Container();
               }
             },
           ),

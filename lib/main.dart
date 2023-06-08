@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_e_mart/consts/consts.dart';
-import 'package:flutter_e_mart/views/views.dart';
+import 'package:flutter_e_mart/views/splash_screen/splash_screen.dart';
 import 'package:get/get.dart';
 
 import 'firebase_options.dart';
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: regular,
       ),
-      home: const SplashScreen(),
+      home: const SplashScreen(), //BarcodeScannerPage(),
     );
   }
 }

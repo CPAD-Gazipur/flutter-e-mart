@@ -255,7 +255,14 @@ class PaymentScreen extends StatelessWidget {
               title: 'Place Order',
               titleColor: whiteColor,
               backgroundColor: redColor,
-              onPressed: () {},
+              onPressed: () {
+                controller.placeOrder(
+                  paymentMethod:
+                      paymentMethodList[controller.paymentSelectedIndex.value],
+                  shippingAddress: controller.deliveryAddress!,
+                  totalAmount: controller.cartTotalPrice.value,
+                );
+              },
             ),
           ),
         ),

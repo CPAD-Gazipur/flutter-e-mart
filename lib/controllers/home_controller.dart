@@ -17,7 +17,7 @@ class HomeController extends GetxController {
       }
     });
 
-    userName.value = name;
+    if (name != null) userName.value = name;
   }
 
   @override
