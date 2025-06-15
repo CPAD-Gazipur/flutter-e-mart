@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
@@ -112,6 +113,7 @@ class ProductController extends GetxController {
         'p_buyerID': buyerID,
       },
     ).catchError((e) {
+      log(e);
       VxToast.show(
         context,
         msg: e.toString(),

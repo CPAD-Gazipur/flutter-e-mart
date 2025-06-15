@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badge;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_e_mart/consts/consts.dart';
 import 'package:flutter_e_mart/controllers/controllers.dart';
@@ -7,7 +7,7 @@ import 'package:flutter_e_mart/views/views.dart';
 import 'package:get/get.dart';
 
 class HomeNavBar extends StatefulWidget {
-  const HomeNavBar({Key? key}) : super(key: key);
+  const HomeNavBar({super.key});
 
   @override
   State<HomeNavBar> createState() => _HomeNavBarState();
@@ -90,7 +90,7 @@ class _HomeNavBarState extends State<HomeNavBar> {
               var data = snapshot.data!.docs;
 
               if (data.isNotEmpty) {
-                return Badge(
+                return badge.Badge(
                   badgeContent: Text(
                     '${data.length}',
                     style: const TextStyle(
@@ -98,8 +98,12 @@ class _HomeNavBarState extends State<HomeNavBar> {
                       fontSize: 10,
                     ),
                   ),
-                  badgeColor: redColor,
-                  animationType: BadgeAnimationType.scale,
+                  badgeStyle: badge.BadgeStyle(
+                    badgeColor: redColor,
+                    shape: badge.BadgeShape.circle,
+                    padding: const EdgeInsets.all(5),
+                  ),
+                  badgeAnimation: badge.BadgeAnimation.scale(),
                   child: Image.asset(
                     icCart,
                     width: 18,
@@ -138,7 +142,7 @@ class _HomeNavBarState extends State<HomeNavBar> {
               var data = snapshot.data!.docs;
 
               if (data.isNotEmpty) {
-                return Badge(
+                return badge.Badge(
                   badgeContent: Text(
                     '${data.length}',
                     style: const TextStyle(
@@ -146,8 +150,12 @@ class _HomeNavBarState extends State<HomeNavBar> {
                       fontSize: 10,
                     ),
                   ),
-                  badgeColor: redColor,
-                  animationType: BadgeAnimationType.scale,
+                  badgeStyle: badge.BadgeStyle(
+                    badgeColor: redColor,
+                    shape: badge.BadgeShape.circle,
+                    padding: const EdgeInsets.all(5),
+                  ),
+                  badgeAnimation: badge.BadgeAnimation.scale(),
                   child: Image.asset(
                     icCart,
                     width: 18,

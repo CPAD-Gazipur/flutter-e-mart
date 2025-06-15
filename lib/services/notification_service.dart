@@ -2,10 +2,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_e_mart/utils/utils.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:flutter_native_timezone_latest/flutter_native_timezone_latest.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+
+@pragma('vm:entry-point')
+void onDidReceiveBackgroundNotificationResponse(
+    NotificationResponse response) {}
 
 class NotificationService {
   NotificationService();
@@ -17,12 +21,11 @@ class NotificationService {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('ic_stat_justwater');
 
-    final IOSInitializationSettings initializationSettingsIOS =
-        IOSInitializationSettings(
+    final DarwinInitializationSettings initializationSettingsIOS =
+        DarwinInitializationSettings(
       requestSoundPermission: true,
       requestBadgePermission: true,
       requestAlertPermission: true,
-      onDidReceiveLocalNotification: onDidReceiveLocalNotification,
     );
 
     final InitializationSettings initializationSettings =
@@ -33,13 +36,15 @@ class NotificationService {
 
     await _localNotifications.initialize(
       initializationSettings,
-      onSelectNotification: selectNotification,
+      onDidReceiveNotificationResponse: _onDidReceiveNotificationResponse,
+      onDidReceiveBackgroundNotificationResponse:
+          onDidReceiveBackgroundNotificationResponse,
     );
 
     tz.initializeTimeZones();
     tz.setLocalLocation(
       tz.getLocation(
-        await FlutterNativeTimezone.getLocalTimezone(),
+        await FlutterNativeTimezoneLatest.getLocalTimezone(),
       ),
     );
   }
@@ -55,9 +60,9 @@ class NotificationService {
     }
   }
 
-  void selectNotification(String? payload) {
-    if (payload != null && payload.isNotEmpty) {
-      behaviorSubject.add(payload);
+  void _onDidReceiveNotificationResponse(NotificationResponse response) {
+    if (response.payload != null && response.payload!.isNotEmpty) {
+      behaviorSubject.add(response.payload!);
     }
   }
 
@@ -84,15 +89,17 @@ class NotificationService {
       color: const Color(0xff2196f3),
     );
 
-    IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails(
-        threadIdentifier: "thread1",
-        attachments: <IOSNotificationAttachment>[
-          IOSNotificationAttachment(bigPicture)
-        ]);
+    DarwinNotificationDetails iosNotificationDetails =
+        DarwinNotificationDetails(
+      threadIdentifier: "thread1",
+      attachments: <DarwinNotificationAttachment>[
+        DarwinNotificationAttachment(bigPicture)
+      ],
+    );
 
     final details = await _localNotifications.getNotificationAppLaunchDetails();
     if (details != null && details.didNotificationLaunchApp) {
-      behaviorSubject.add(details.payload!);
+      behaviorSubject.add(details.notificationResponse!.payload!);
     }
     NotificationDetails platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics, iOS: iosNotificationDetails);
@@ -115,9 +122,7 @@ class NotificationService {
       tz.TZDateTime.now(tz.local).add(Duration(seconds: seconds)),
       platformChannelSpecifics,
       payload: payload,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      androidAllowWhileIdle: true,
+      androidScheduleMode: AndroidScheduleMode.alarmClock,
     );
   }
 
@@ -151,7 +156,7 @@ class NotificationService {
       RepeatInterval.everyMinute,
       platformChannelSpecifics,
       payload: payload,
-      androidAllowWhileIdle: true,
+      androidScheduleMode: AndroidScheduleMode.alarmClock,
     );
   }
 }

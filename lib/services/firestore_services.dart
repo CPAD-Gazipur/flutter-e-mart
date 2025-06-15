@@ -3,7 +3,8 @@ import 'package:flutter_e_mart/consts/consts.dart';
 
 class FirestoreServices {
   /// GET USER DATA
-  static getUserInfo({required String uID}) {
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getUserInfo(
+      {required String uID}) {
     return firebaseFirestore
         .collection(userCollection)
         .where('uID', isEqualTo: uID)

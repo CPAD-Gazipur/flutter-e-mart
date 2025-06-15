@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: regular,
       ),
-      home: const SplashScreen(), //BarcodeScannerPage(),
+      home: const SplashScreen(),
     );
   }
 }
